@@ -46,13 +46,14 @@ namespace CarRentalApplication
             .AddEntityFrameworkStores<AppDbContext>();
             services.AddDbContext<AppDbContext>();
             services.AddSingleton(Configuration);
+            services.AddTransient<AppDbContextSeedData>();
             services.AddDistributedMemoryCache();            
             services.AddSession();
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, AppDbContextSeedData seeder)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -75,6 +76,7 @@ namespace CarRentalApplication
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            seeder.EnsureSeedData().Wait();
         }
     }
 }

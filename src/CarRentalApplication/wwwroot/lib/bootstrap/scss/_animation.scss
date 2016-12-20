@@ -1,0 +1,42 @@
+.fade {
+  opacity: 0;
+
+  @if $enable-transitions {
+    transition: opacity .15s linear;
+  }
+
+  &.active {
+    opacity: 1;
+  }
+}
+
+.collapse {
+  display: none;
+  &.active {
+    display: block;
+  }
+}
+
+tr {
+  &.collapse.active {
+    display: table-row;
+  }
+}
+
+tbody {
+  &.collapse.active {
+    display: table-row-group;
+  }
+}
+
+.collapsing {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+
+  @if $enable-transitions {
+    transition-timing-function: ease;
+    transition-duration: .35s;
+    transition-property: height;
+  }
+}

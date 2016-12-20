@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +14,12 @@ namespace CarRentalApplication.Models
         private IConfigurationRoot _config;
 
         public AppDbContext(IConfigurationRoot config, DbContextOptions options)
-            :base(options)
+            : base(options)
         {
             _config = config;
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder builder )
+        protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
             base.OnConfiguring(builder);
             var connectionString = _config.GetConnectionString("ConnectionString");
@@ -40,18 +41,18 @@ namespace CarRentalApplication.Models
         /// Generate the Date Modified and Date Created values
         /// </summary>
         /// <returns></returns>
-        public override int SaveChanges()
+        /// 
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
         {
             foreach (var history in this.ChangeTracker.Entries()
-                .Where(e => e.Entity is IModificationHistory && (e.State == EntityState.Added || e.State == EntityState.Modified))
-                .Select(e => e.Entity as IModificationHistory))
+                    .Where(e => e.Entity is IModificationHistory && (e.State == EntityState.Added || e.State == EntityState.Modified))
+                    .Select(e => e.Entity as IModificationHistory))
             {
                 history.DateModified = DateTime.Now;
                 if (history.DateCreated == DateTime.MinValue)
                     history.DateCreated = DateTime.Now;
-
             }
-            return base.SaveChanges();
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
     }
 }
