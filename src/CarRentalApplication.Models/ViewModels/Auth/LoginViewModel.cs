@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace CarRentalApplication.Models.ViewModels.Auth
 {
-    public class LoginViewModel
+    public class LoginViewModel : IFormProcessingModel
     {
-        [Required]
-        [DataType(DataType.EmailAddress)]
+        [Required(ErrorMessage = "Email is Required")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Please enter a valid email")]
         public string Email { get; set; }
 
-        [Required]
-        [DataType(DataType.Password)]
+        [Required(ErrorMessage = "Password is Required")]
         public string Password { get; set; }
+
+        public FormSubmissionViewModel FormProcessing { get; set; }
+
     }
 }

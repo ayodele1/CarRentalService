@@ -1,18 +1,15 @@
-﻿@using ViewModels = CarRentalApplication.Models.ViewModels;
+﻿@using CarRentalApplication.Models.ViewModels
 @model CarRentalApplication.Models.ViewModels.Auth.LoginViewModel
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
     ViewData["Title"] = "Login";
-    var formSubmission = new ViewModels.FormSubmissionViewModel()
-    {
-        FormController = "Auth",
-        FormAction = "Login"
-    };
+
+    Model.FormProcessing = new FormSubmissionViewModel { FormAction = "Login", FormController = "Auth" };    
 }
 
 <div class="row">
     <br />
-    @await Component.InvokeAsync("LoginComponent", new { lvm = Model, fsvm = formSubmission})
+    @await Component.InvokeAsync("LoginComponent", new { lvm = Model})
 </div>

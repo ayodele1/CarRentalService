@@ -10,10 +10,9 @@ namespace CarRentalApplication.ViewComponents
 {
     public class LoginComponent : ViewComponent
     {
-        public IViewComponentResult Invoke(LoginViewModel lvm, FormSubmissionViewModel fsvm)
-        {
-            var tupleViewModel = new Tuple<LoginViewModel, FormSubmissionViewModel>(lvm, fsvm);          
-            return View(tupleViewModel);
+        public IViewComponentResult Invoke(LoginViewModel lvm)
+        {       
+            return View(lvm);
         }
     }
 }

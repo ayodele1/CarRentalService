@@ -30,7 +30,7 @@ namespace CarRentalApplication.Controllers.Auth
             {
                 return RedirectToAction("Home", "Dashboard");
             }
-            return View();
+            return View(new LoginViewModel());
         }
 
         [HttpPost]
