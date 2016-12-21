@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using CarRentalApplication.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using AutoMapper;
+using CarRentalApplication.Models.ViewModels.Auth;
 
 namespace CarRentalApplication
 {
@@ -58,6 +60,11 @@ namespace CarRentalApplication
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            Mapper.Initialize(config =>
+            {
+                config.CreateMap<RegisterViewModel, AppUser>();
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -69,6 +76,7 @@ namespace CarRentalApplication
             }
 
             app.UseStaticFiles();
+            app.UseIdentity();
 
             app.UseMvc(routes =>
             {

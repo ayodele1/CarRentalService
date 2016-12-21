@@ -1,0 +1,69 @@
+﻿fieldset{
+    background-color:#fcfdff;
+}
+.pageHeading{
+    color:brown;
+}
+.numeric{
+    font-size:20px;
+    color:#33b20c;
+}
+.reservation-angular{
+    border-radius: 3px;
+}
+
+
+
+
+.selectedVehicle {
+    border: 2px solid green;
+}
+
+#reservationContactForm {
+    background-color: #eee !important;
+}
+
+.contactInfoTextfield {
+    background-color: white;
+}
+
+
+hr {
+    height: 1px;
+    background-color: darkcyan;
+}
+
+.reservationSummary {
+    background-color: #eee;
+}
+
+.reservation-summary-table-header {
+    border-bottom:1px solid darkcyan;
+    border-top:1px solid darkcyan;
+}
+table{
+    width: 100%;
+}
+#rentalVehicle{
+    background-color:#eee;
+}
+.reservation-summary-rental-vehicle{
+    background-color:#eee;
+    border:none;    
+}
+fieldset{
+    border:1px solid darkcyan;
+    padding: 20px;
+}
+#selectedthumbnail{
+    border:3px solid green;
+}
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+
+
+#reservationFormDiv{
+    background-color: white;
+}

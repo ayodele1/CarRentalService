@@ -17,18 +17,18 @@ namespace CarRentalApplication.Models
 
         public async Task EnsureSeedData()
         {
-            if (!_context.Users.Any())
-            {
-                var user = new AppUser
-                {
-                    Email = "awoleyeayodele1@gmail.com",
-                    FirstName = "Ayodele",
-                    LastName = "Awoleye",
-                    UserName = "awoleyeayodele1@gmail.com",
-                    PhoneNumber = "4012888776"
-                };
-                _context.Users.Add(user);
-            }
+            //if (!_context.Users.Any())
+            //{
+            //    var user = new AppUser
+            //    {
+            //        Email = "awoleyeayodele1@gmail.com",
+            //        FirstName = "Ayodele",
+            //        LastName = "Awoleye",
+            //        UserName = "awoleyeayodele1@gmail.com",
+            //        PhoneNumber = "4012888776"
+            //    };
+            //    _context.Users.Add(user);
+            //}
             if (!_context.Vehicles.Any())
             {
                 var vehicles = new List<Vehicle>
@@ -50,6 +50,16 @@ namespace CarRentalApplication.Models
                     new Vehicle { MakeYear = 2015, Name = "Tesla Model X", PassengerCapacity = 5, PricePerDay = 153.66, isAvailable = 1, ImageName = "teslaModelX.jpe", ModelType = VehicleType.Luxury, WheelDrive = WheelDrive.AllWheel },
                 };
                 _context.Vehicles.AddRange(vehicles);
+            }
+            if (!_context.Roles.Any())
+            {
+                var Roles = new List<IdentityRole>
+                {
+                    new IdentityRole {Name = "customer", NormalizedName = "customer".ToUpper() },
+                    new IdentityRole {Name = "customerrepresentative", NormalizedName = "customerrepresentative".ToUpper() },
+                    new IdentityRole {Name = "admin", NormalizedName = "admin".ToUpper() }
+                };
+                _context.Roles.AddRange(Roles);
             }
             await _context.SaveChangesAsync();
 
