@@ -9,15 +9,24 @@ namespace CarRentalApplication.Controllers.Reservation
 {
     public class ReservationController : Controller
     {
+        public IActionResult Index()
+        {
+            return View();
+        }
 
         [HttpPost]
-        public IActionResult VehicleSetup(ReservationLogisticsViewModel rlvm)
+        public IActionResult Index(ReservationLogisticsViewModel rlvm)
         {
             if (ModelState.IsValid)
             {
-
+                return RedirectToAction("VehicleSetup");
             }
             return View(rlvm);
+        }
+
+        public IActionResult VehicleSetup(ReservationLogisticsViewModel rlvm)
+        {
+            return View();
         }
 
     }
