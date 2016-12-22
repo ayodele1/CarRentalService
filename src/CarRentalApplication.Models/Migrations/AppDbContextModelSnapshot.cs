@@ -95,6 +95,8 @@ namespace CarRentalApplication.Models.Migrations
 
                     b.Property<double>("TotalCost");
 
+                    b.Property<string>("UserLocation");
+
                     b.Property<Guid>("VehicleId");
 
                     b.HasKey("ConfirmationNumber");

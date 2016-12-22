@@ -7,8 +7,8 @@
     "jquery-validation": "1.14.0",
     "jquery-validation-unobtrusive": "3.2.6",
     "bootswatch": "~3.3.7",
-    "jquery-ui": "1.11.4",
-    "angular": "1.6.0"
+    "angular": "1.6.0",
+    "jquery-ui": "1.11.4"
   },
   "resolutions": {
     "bootstrap": "~3.3.7"

@@ -31,6 +31,8 @@ namespace CarRentalApplication.Models
 
         public double Taxes { get; set; }
 
+        public string UserLocation { get; set; }
+
         public string PickupLocation { get; set; }
 
         public string ReturnLocation { get; set; }
