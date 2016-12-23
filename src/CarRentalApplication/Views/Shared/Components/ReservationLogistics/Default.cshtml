@@ -12,7 +12,7 @@
         <div class="form-group form-group-lg">
             <label class="col-lg-4 control-label">YOUR LOCATION (CITY OR ZIP)</label>
             <div class="col-lg-6 col-lg-offset-1">
-                <input asp-for="UserLocation" type="text" class="form-control input-lg search-field" id="userLocation" onfocus="geolocate();" placeholder="Enter a Location">
+                <input asp-for="UserLocation" type="text" class="form-control input-lg search-field" id="userLocation" onfocus="geolocate();" placeholder="Enter a Location" value=@(Model.UserLocation)>
                 <span asp-validation-for="UserLocation" class="text-danger"></span>
             </div>
         </div>
