@@ -11,6 +11,7 @@ using CarRentalApplication.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using AutoMapper;
 using CarRentalApplication.Models.ViewModels.Auth;
+using CarRentalApplication.Repositories;
 
 namespace CarRentalApplication
 {
@@ -49,6 +50,8 @@ namespace CarRentalApplication
             services.AddDbContext<AppDbContext>();
             services.AddSingleton(Configuration);
             services.AddTransient<AppDbContextSeedData>();
+            services.AddScoped<VehicleRepository>();
+            services.AddScoped<ReservationRepository>();
             services.AddDistributedMemoryCache();            
             services.AddSession();
 

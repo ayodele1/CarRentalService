@@ -1,0 +1,54 @@
+﻿@model CarRentalApplication.Models.ViewModels.Reservation.ReservationVehicleViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkId=397860
+*@
+@{
+}
+
+@foreach (var vehicle in Model.AvailableVehicles)
+{
+    string thumbnailId = "";
+    @if (Model.Vehicle != null)
+    {
+        thumbnailId = (Model.Vehicle.Id == vehicle.Id) ? "selectedthumbnail" : "";
+    }
+    <div class="col-xs-12 col-md-4 customThumbnail" Id=@thumbnailId style="padding:8px;">
+        <div class="card">
+            <div class="front" style="border:1px solid #e6ebf7;min-height:220px;">
+                <span class="pull-left numeric"> @string.Concat("$", vehicle.PricePerDay) / day</span>
+                <img src="~/images/@(vehicle.ImageName)" style="height:180px;" />
+            </div>
+            <div class="back" style="min-height:220px;">
+                <h3 class="table-header text-center">@vehicle.Name.ToUpper()</h3>
+                <hr class="table-header-line" />
+                <table class="table-responsive table-bordered vehicleDetailsTable">
+                    <tr>
+                        <td>PASSENGER CAPACITY</td>
+                        <td>@vehicle.PassengerCapacity</td>
+                    </tr>
+                    <tr>
+                        <td>WHEEL DRIVE</td>
+                        <td>@vehicle.WheelDrive</td>
+                    </tr>
+                    <tr>
+                        <td>MAKE YEAR</td>
+                        <td>@vehicle.MakeYear</td>                        
+                    </tr>                    
+                </table>
+            </div>
+        </div>
+        <hr />
+        <div class="caption">
+            <form asp-controller=@(Model.FormProcessing.FormController) asp-action=@(Model.FormProcessing.FormAction) method="post" role="form">
+                <div asp-valIdation-summary="All" class="text-danger"></div>
+                <input type="hIdden" asp-for="Vehicle.Id" value=@(vehicle.Id) />
+                @vehicle.Name
+                <span class="pull-right">
+                    <input type="button" value="More Details" class="vehicleDetails btn btn-default btn-sm" />
+                    <input type="submit" value="SELECT" class="btn btn-primary btn-sm" Id="uservehicle" onclick="vehicleselected()" />
+                </span>
+            </form>
+        </div>
+    </div>
+
+}
