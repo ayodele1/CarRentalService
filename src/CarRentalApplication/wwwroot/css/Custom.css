@@ -1,5 +1,7 @@
 ﻿fieldset {
     background-color: #fcfdff;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
 }
 
 .pageHeading {
@@ -42,6 +44,10 @@
 .table-header-line {
     height: 2px;
     background-color: white;
+}
+
+.disabledAccountReg {
+    opacity: 0.3;
 }
 
 
@@ -93,11 +99,6 @@ fieldset {
     border: 1px solid darkcyan;
     padding: 20px;
 }
-
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-    display: none !important;
-}
-
 
 
 #reservationFormDiv {

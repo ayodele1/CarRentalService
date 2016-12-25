@@ -1,13 +1,13 @@
 ﻿@using ViewModel = CarRentalApplication.Models.ViewModels
-    @model ViewModel.Reservation.ReservationVehicleViewModel
-    @*
-        For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-    *@
-    @{
-        Model.FormProcessing = new ViewModel.FormSubmissionViewModel { FormAction = "VehicleSetup", FormController = "Reservation" };
-    }
-    <div class="row">
-        <h3>Welcome to the Vehicle Setup</h3>
+@model ViewModel.Reservation.ReservationVehicleViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Model.FormProcessing = new ViewModel.FormSubmissionViewModel { FormAction = "VehicleSetup", FormController = "Reservation" };
+}
+<div class="row">
+    <h3>Welcome to the Vehicle Setup</h3>
 
-        @await Component.InvokeAsync("ReservationVehicle", new { rvvm = Model })
-    </div>
+    @await Component.InvokeAsync("ReservationVehicle", new { rvvm = Model })
+</div>

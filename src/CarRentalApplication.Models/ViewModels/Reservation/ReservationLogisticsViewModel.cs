@@ -51,6 +51,7 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
         private string _returnLocation = string.Empty;
         private DateTime _pickupDate = DateTime.Now;
         private DateTime _returnDate = DateTime.Now;
+        public static string SessionKey = "rlvm";
         private List<string> _storeLocations = new List<string>
         {
             "987 Johnson Str, Pawtucket RI",

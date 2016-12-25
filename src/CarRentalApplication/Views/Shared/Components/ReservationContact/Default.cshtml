@@ -1,0 +1,75 @@
+﻿@model CarRentalApplication.Models.ViewModels.Reservation.ReservationContactViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<form asp-controller=@(Model.FormProcessing.FormController) asp-action=@(Model.FormProcessing.FormAction) method="post" role="form" class="form-horizontal">
+    <fieldset class="col-md-10 col-md-offset-1">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <fieldset>
+            <legend class="label label-primary form-control-sm" style="font-size:15px;">&nbsp;&nbsp;CONTACT INFO</legend>
+
+            <div class="form-group col-md-6">
+                <label class="">FIRSTNAME<span class="text-danger">*</span></label><br />
+                <div class="">
+                    <input type="text" class="form-control" id="reservationFirstName" asp-for="FirstName" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="">LASTNAME<span class="text-danger">*</span></label><br />
+                <div class="">
+                    <input type="text" class="form-control" id="reservationFirstName" asp-for="LastName" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="form-group col-md-6">
+                <label class="">EMAIL ADDRESS<span class="text-danger">*</span></label>
+                <div class="">
+                    <input type="email" class="form-control contactInfoTextfield" id="reservationEmail" asp-for="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="">PHONE NUMBER<span class="text-danger">*</span></label>
+                <div class="">
+                    <input type="text" class="form-control contactInfoTextfield" id="reservationPhone" asp-for="PhoneNumber" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+
+        </fieldset>
+        <br /><br />
+        <fieldset class="accountCreation">
+            <legend class="label label-primary form-control-sm" style="font-size:15px;">&nbsp;&nbsp;CREATE AN ACCOUNT ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><input class="" type="checkbox" id="createaccount" /></span></legend>
+            <div class="form-group col-md-6 disabledAccountReg">
+                <label class="">Password:</label>
+                <div class="">
+                    <input type="password" class="form-control contactInfoTextfield" id="reservationRegPassword" asp-for="Password" disabled/>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group col-md-6 disabledAccountReg">
+                <label class="">Confirm Password:</label>
+                <div class="">
+                    <input type="password" class="form-control contactInfoTextfield" id="reservationRegConfirmPassword" asp-for="ConfirmPassword" disabled />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+        </fieldset>
+        <br />
+        <div class="form-group">
+            <div class="col-md-3 col-md-offset-7">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    REVIEW YOUR RESERVATION
+                    <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+

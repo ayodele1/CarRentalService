@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using AutoMapper;
 using CarRentalApplication.Models.ViewModels.Auth;
 using CarRentalApplication.Repositories;
+using CarRentalApplication.Services;
 
 namespace CarRentalApplication
 {
@@ -54,6 +55,7 @@ namespace CarRentalApplication
             services.AddScoped<ReservationRepository>();
             services.AddDistributedMemoryCache();            
             services.AddSession();
+            services.AddSingleton<ViewModelSesssionService>();
 
         }
 
@@ -77,7 +79,7 @@ namespace CarRentalApplication
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            app.UseSession();
             app.UseStaticFiles();
             app.UseIdentity();
 

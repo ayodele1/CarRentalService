@@ -1,5 +1,6 @@
 ﻿using CarRentalApplication.Models.ViewModels.Reservation;
 using CarRentalApplication.Repositories;
+using CarRentalApplication.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,14 +12,18 @@ namespace CarRentalApplication.Controllers.Reservation
     public class ReservationController : Controller
     {
         private VehicleRepository _vehicleRepo;
+        private ViewModelSesssionService _sessionService;
 
-        public ReservationController(VehicleRepository vehicleRepo)
+        public ReservationController(VehicleRepository vehicleRepo, ViewModelSesssionService sessionService)
         {
             _vehicleRepo = vehicleRepo;
+            _sessionService = sessionService;
         }
         public IActionResult Index()
         {
-            return View();
+            var currModel = _sessionService.GetFromSession<ReservationLogisticsViewModel>(HttpContext, ReservationLogisticsViewModel.SessionKey)
+                ?? null;
+            return View(currModel);
         }
 
         [HttpPost]
@@ -26,6 +31,7 @@ namespace CarRentalApplication.Controllers.Reservation
         {
             if (ModelState.IsValid)
             {
+                _sessionService.SaveToSession(HttpContext, rlvm, ReservationLogisticsViewModel.SessionKey);
                 return RedirectToAction("VehicleSetup");
             }
             return View(rlvm);
@@ -33,15 +39,17 @@ namespace CarRentalApplication.Controllers.Reservation
 
         public IActionResult VehicleSetup()
         {
-            var viewModel = new ReservationVehicleViewModel { AvailableVehicles = _vehicleRepo.GetAllAvailableVehicles() };
-            return View(viewModel);
+            var currModel = _sessionService.GetFromSession<ReservationVehicleViewModel>(HttpContext, ReservationVehicleViewModel.SessionKey)
+                ?? new ReservationVehicleViewModel { AvailableVehicles = _vehicleRepo.GetAllAvailableVehicles() };
+            return View(currModel);
         }
 
         [HttpPost]
         public IActionResult VehicleSetup(ReservationVehicleViewModel rvvm)
-        {            
+        {
             if (ModelState.IsValid)
             {
+                _sessionService.SaveToSession(HttpContext, rvvm, ReservationVehicleViewModel.SessionKey);
                 return RedirectToAction("ContactSetup");
                 //Save the View Model in the Session Object.
             }
@@ -50,8 +58,27 @@ namespace CarRentalApplication.Controllers.Reservation
 
         public IActionResult ContactSetup()
         {
+            var currModel = _sessionService.GetFromSession<ReservationContactViewModel>(HttpContext, ReservationContactViewModel.SessionKey)
+                            ?? new ReservationContactViewModel();
+            return View(currModel);
+        }
+
+        [HttpPost]
+        public IActionResult ContactSetup(ReservationContactViewModel rcvm)
+        {
+            if (ModelState.IsValid)
+            {
+                _sessionService.SaveToSession(HttpContext, rcvm, ReservationContactViewModel.SessionKey);
+                return RedirectToAction("Index", "Home");
+            }
+            return View(rcvm);
+        }
+
+        public IActionResult Review()
+        {
             return View();
         }
+
 
     }
 }

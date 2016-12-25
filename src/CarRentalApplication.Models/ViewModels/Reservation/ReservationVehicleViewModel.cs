@@ -9,6 +9,7 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
     {
         private bool _isDirty = false;
         private Vehicle _vehicle = null;
+        public static string SessionKey = "rvvm";
 
         public Vehicle Vehicle
         {
