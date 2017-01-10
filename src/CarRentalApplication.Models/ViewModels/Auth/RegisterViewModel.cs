@@ -30,6 +30,6 @@ namespace CarRentalApplication.Models.ViewModels.Auth
         [Compare("Password", ErrorMessage = "Passwords do not match")]
         public string ConfirmPassword { get; set; }
 
-        public string UserName { get { return Email; } set { UserName = value; } }
+        public string UserName { get { return Email; } }
     }
 }

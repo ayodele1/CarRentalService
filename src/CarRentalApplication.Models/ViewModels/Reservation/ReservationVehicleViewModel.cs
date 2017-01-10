@@ -11,6 +11,7 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
         private Vehicle _vehicle = null;
         public static string SessionKey = "rvvm";
 
+        public Guid VehicleId { get; set; }
         public Vehicle Vehicle
         {
             get { return _vehicle; }

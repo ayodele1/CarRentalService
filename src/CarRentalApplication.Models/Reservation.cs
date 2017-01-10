@@ -27,9 +27,11 @@ namespace CarRentalApplication.Models
 
         public Vehicle Vehicle { get; set; }
 
-        public double TotalCost { get; set; }
+        public double TotalCost { get; set; }        
 
-        public double Taxes { get; set; }
+        public double StateTax { get; set; }
+
+        public double FederalTax { get; set; }
 
         public string UserLocation { get; set; }
 

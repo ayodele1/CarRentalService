@@ -41,7 +41,7 @@
         <div class="caption">
             <form asp-controller=@(Model.FormProcessing.FormController) asp-action=@(Model.FormProcessing.FormAction) method="post" role="form">
                 <div asp-valIdation-summary="All" class="text-danger"></div>
-                <input type="hIdden" asp-for="Vehicle.Id" value=@(vehicle.Id) />
+                <input type="hIdden" asp-for="VehicleId" value=@(vehicle.Id) />
                 @vehicle.Name
                 <span class="pull-right">
                     <input type="button" value="More Details" class="vehicleDetails btn btn-default btn-sm" />

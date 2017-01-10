@@ -49,6 +49,7 @@ namespace CarRentalApplication.Controllers.Reservation
         {
             if (ModelState.IsValid)
             {
+                rvvm.Vehicle = _vehicleRepo.GetVehicleById(rvvm.VehicleId);
                 _sessionService.SaveToSession(HttpContext, rvvm, ReservationVehicleViewModel.SessionKey);
                 return RedirectToAction("ContactSetup");
                 //Save the View Model in the Session Object.
@@ -69,14 +70,23 @@ namespace CarRentalApplication.Controllers.Reservation
             if (ModelState.IsValid)
             {
                 _sessionService.SaveToSession(HttpContext, rcvm, ReservationContactViewModel.SessionKey);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Review");
             }
             return View(rcvm);
         }
 
         public IActionResult Review()
         {
-            return View();
+            var logisticsSetup = _sessionService.GetFromSession<ReservationLogisticsViewModel>(HttpContext,ReservationLogisticsViewModel.SessionKey);
+            var vehicleSetup = _sessionService.GetFromSession<ReservationVehicleViewModel>(HttpContext, ReservationVehicleViewModel.SessionKey);
+            var contactSetup = _sessionService.GetFromSession<ReservationContactViewModel>(HttpContext, ReservationContactViewModel.SessionKey);
+            var currModel = new ReservationViewModel
+            {
+                LogisticsSetup = logisticsSetup,
+                VehicleSetup = vehicleSetup,
+                ContactSetup = contactSetup
+            };
+            return View(currModel);
         }
 
 

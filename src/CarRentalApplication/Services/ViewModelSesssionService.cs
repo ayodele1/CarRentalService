@@ -19,7 +19,10 @@ namespace CarRentalApplication.Services
         public T GetFromSession<T>(HttpContext context, string sessionKey)
         {
             var sessionString = context.Session.GetString(sessionKey);
-            return JsonConvert.DeserializeObject<T>(sessionString);
+            if (sessionString != null)
+                return JsonConvert.DeserializeObject<T>(sessionString);
+
+            return default(T);
         }
     }
 }

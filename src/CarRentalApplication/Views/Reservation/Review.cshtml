@@ -1,0 +1,14 @@
+﻿@using ViewModels = CarRentalApplication.Models.ViewModels;
+@model ViewModels.Reservation.ReservationViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Model.FormProcessing = new ViewModels.FormSubmissionViewModel { FormAction = "Review", FormController = "Reservation" };
+}
+
+<div class="row">
+    <h3 class="pageHeading">Review Your Reservation</h3>
+
+    @await Component.InvokeAsync("ReservationReview", new { rvm = Model})
+</div>
