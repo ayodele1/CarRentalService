@@ -11,4 +11,11 @@
     <h3 class="pageHeading">Review Your Reservation</h3>
 
     @await Component.InvokeAsync("ReservationReview", new { rvm = Model})
+
+    <div class="col-lg-3 pull-right">
+        <button type="submit" value="SUBMIT RESERVATION" class="btn btn-primary btn-lg">
+            SUBMIT RESERVATION
+            <span class="glyphicon glyphicon-arrow-right"></span>
+        </button>
+    </div>
 </div>

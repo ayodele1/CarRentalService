@@ -49,6 +49,20 @@
 .disabledAccountReg {
     opacity: 0.3;
 }
+.review-header{
+    background-color:#edeeef;
+
+}
+#review-form{
+    border: 1px solid #2c3e50;
+}
+.review-segment-header{
+    font-size: 21px;
+    border-top: 1px solid #2c3e50;
+}
+.review-segment-content{
+    font-size: 17px;
+}
 
 
 
