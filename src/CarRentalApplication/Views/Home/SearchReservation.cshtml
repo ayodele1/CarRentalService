@@ -1,0 +1,37 @@
+﻿@model CarRentalApplication.Models.ViewModels.Reservation.ReservationSearchViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="row">
+    <h3 class="pageHeading">UPDATE / CANCEL RESERVATION</h3>
+    <br />
+    <form role="form" asp-controller="Home" asp-action="SearchReservation" id="searchReservationForm" class="form-horizontal">
+        <fieldset>
+            <div asp-validation-summary="ModelOnly" class="text-danger text-lg-center"></div>
+            <div class="form-group form-group-lg">
+                <label class="col-lg-2 control-label">Email</label>
+                <div class="col-lg-7">
+                    <input type="email" class="form-control input input-lg" asp-for="Email" style="width:100%" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group form-group-lg">
+                <label class="col-lg-2 control-label">Confirmation Number</label>
+                <div class="col-lg-7">
+                    <input type="text" class="input form-control" asp-for="ConfirmationNumber" style="width:400px;" />
+                    <span asp-validation-for="ConfirmationNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="col-lg-3 col-lg-offset-2">
+                <button class="btn btn-info btn-lg" type="submit">
+                    FIND RESERVATION
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </div>
+        </fieldset>
+    </form>
+</div>

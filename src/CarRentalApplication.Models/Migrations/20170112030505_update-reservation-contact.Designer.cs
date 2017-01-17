@@ -8,9 +8,10 @@ using CarRentalApplication.Models;
 namespace CarRentalApplication.Models.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170112030505_update-reservation-contact")]
+    partial class updatereservationcontact
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -131,7 +132,7 @@ namespace CarRentalApplication.Models.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ReservationContacts");
+                    b.ToTable("ReservationContact");
                 });
 
             modelBuilder.Entity("CarRentalApplication.Models.Vehicle", b =>

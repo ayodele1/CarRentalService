@@ -13,6 +13,7 @@ using AutoMapper;
 using CarRentalApplication.Models.ViewModels.Auth;
 using CarRentalApplication.Repositories;
 using CarRentalApplication.Services;
+using CarRentalApplication.Models.ViewModels.Reservation;
 
 namespace CarRentalApplication
 {
@@ -36,7 +37,7 @@ namespace CarRentalApplication
             // Add framework services.
             services.AddMvc();
 
-            
+
 
             services.AddIdentity<AppUser, IdentityRole>(config =>
             {
@@ -53,7 +54,8 @@ namespace CarRentalApplication
             services.AddTransient<AppDbContextSeedData>();
             services.AddScoped<VehicleRepository>();
             services.AddScoped<ReservationRepository>();
-            services.AddDistributedMemoryCache();            
+            services.AddScoped<ReservationContactRepository>();
+            services.AddDistributedMemoryCache();
             services.AddSession();
             services.AddSingleton<ViewModelSesssionService>();
 
@@ -68,6 +70,17 @@ namespace CarRentalApplication
             Mapper.Initialize(config =>
             {
                 config.CreateMap<RegisterViewModel, AppUser>();
+                config.CreateMap<ReservationContactViewModel, ReservationContact>();
+                config.CreateMap<ReservationContactViewModel, Reservation>();
+                config.CreateMap<ReservationLogisticsViewModel, Reservation>();
+                config.CreateMap<ReservationVehicleViewModel, Reservation>();
+                config.CreateMap<ReservationViewModel, Reservation>()
+                .ForMember(dest => dest.PickupLocation, opt => opt.MapFrom(src => src.LogisticsSetup.PickupLocation))
+                .ForMember(dest => dest.ReturnLocation, opt => opt.MapFrom(src => src.LogisticsSetup.ReturnLocation))
+                .ForMember(dest => dest.PickupDate, opt => opt.MapFrom(src => src.LogisticsSetup.PickupDate))
+                .ForMember(dest => dest.ReturnDate, opt => opt.MapFrom(src => src.LogisticsSetup.ReturnDate))
+                .ForMember(dest => dest.UserLocation, opt => opt.MapFrom(src => src.LogisticsSetup.UserLocation))
+                .ForMember(dest => dest.VehicleId, opt => opt.MapFrom(src => src.VehicleSetup.VehicleId));
             });
 
             if (env.IsDevelopment())

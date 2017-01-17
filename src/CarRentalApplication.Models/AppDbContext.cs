@@ -30,6 +30,8 @@ namespace CarRentalApplication.Models
 
         public DbSet<Vehicle> Vehicles { get; set; }
 
+        public DbSet<ReservationContact> ReservationContacts { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

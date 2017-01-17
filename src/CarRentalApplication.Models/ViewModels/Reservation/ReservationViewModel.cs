@@ -7,11 +7,14 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
 {
     public class ReservationViewModel : IFormProcessing
     {
+        public static string SessionKey = "rvm";
         public ReservationLogisticsViewModel LogisticsSetup { get; set; }
 
         public ReservationVehicleViewModel VehicleSetup { get; set; }
 
         public ReservationContactViewModel ContactSetup { get; set; }
+
+        public long ConfirmationNumber { get; set; }
 
         public int TotalRentalDays
         {
@@ -22,11 +25,15 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
         {
             get
             {
-                if (this.TotalRentalDays > 0)
+                if(VehicleSetup != null)
                 {
-                    return (this.VehicleSetup.Vehicle.PricePerDay * TotalRentalDays);
+                    if (this.TotalRentalDays > 0)
+                    {
+                        return (this.VehicleSetup.Vehicle.PricePerDay * TotalRentalDays);
+                    }
+                    return this.VehicleSetup.Vehicle.PricePerDay;
                 }
-                return this.VehicleSetup.Vehicle.PricePerDay;
+                return double.MinValue;
             }
         }
         public double StateTax
@@ -39,11 +46,15 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
             get { return 14.29; }
         }
 
-        public double TotalRentalCost
+        public double TotalCost
         {
             get { return this.TotalVehicleCostMinusTax + FederalTax + StateTax; }
         }
 
         public FormSubmissionViewModel FormProcessing { get; set; }
+
+        public AppUser ApplicationUser { get; set; }
+
+        public ReservationContact ReservationContact { get; set; }
     }
 }

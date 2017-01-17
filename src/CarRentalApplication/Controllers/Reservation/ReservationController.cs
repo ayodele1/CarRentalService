@@ -1,6 +1,9 @@
-﻿using CarRentalApplication.Models.ViewModels.Reservation;
+﻿using AutoMapper;
+using CarRentalApplication.Models;
+using CarRentalApplication.Models.ViewModels.Reservation;
 using CarRentalApplication.Repositories;
 using CarRentalApplication.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,17 +16,25 @@ namespace CarRentalApplication.Controllers.Reservation
     {
         private VehicleRepository _vehicleRepo;
         private ViewModelSesssionService _sessionService;
+        private ReservationRepository _reservationRepo;
+        private UserManager<AppUser> _userManager;
+        private SignInManager<AppUser> _signInManager;
+        private ReservationContactRepository _reservationContactRepo;
 
-        public ReservationController(VehicleRepository vehicleRepo, ViewModelSesssionService sessionService)
+        public ReservationController(VehicleRepository vehicleRepo, ViewModelSesssionService sessionService, ReservationRepository resRepo, UserManager<AppUser> userMgr, SignInManager<AppUser> signInMgr, ReservationContactRepository rcontactrepo)
         {
             _vehicleRepo = vehicleRepo;
             _sessionService = sessionService;
+            _reservationRepo = resRepo;
+            _userManager = userMgr;
+            _signInManager = signInMgr;
+            _reservationContactRepo = rcontactrepo;
         }
         public IActionResult Index()
         {
-            var currModel = _sessionService.GetFromSession<ReservationLogisticsViewModel>(HttpContext, ReservationLogisticsViewModel.SessionKey)
+            var currLogistics = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey).LogisticsSetup
                 ?? null;
-            return View(currModel);
+            return View(currLogistics);
         }
 
         [HttpPost]
@@ -31,7 +42,8 @@ namespace CarRentalApplication.Controllers.Reservation
         {
             if (ModelState.IsValid)
             {
-                _sessionService.SaveToSession(HttpContext, rlvm, ReservationLogisticsViewModel.SessionKey);
+                var currModel = new ReservationViewModel { LogisticsSetup = rlvm };
+                _sessionService.SaveToSession(HttpContext, currModel, ReservationViewModel.SessionKey);
                 return RedirectToAction("VehicleSetup");
             }
             return View(rlvm);
@@ -39,9 +51,9 @@ namespace CarRentalApplication.Controllers.Reservation
 
         public IActionResult VehicleSetup()
         {
-            var currModel = _sessionService.GetFromSession<ReservationVehicleViewModel>(HttpContext, ReservationVehicleViewModel.SessionKey)
+            var currVehicleSetup = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey).VehicleSetup
                 ?? new ReservationVehicleViewModel { AvailableVehicles = _vehicleRepo.GetAllAvailableVehicles() };
-            return View(currModel);
+            return View(currVehicleSetup);
         }
 
         [HttpPost]
@@ -50,7 +62,9 @@ namespace CarRentalApplication.Controllers.Reservation
             if (ModelState.IsValid)
             {
                 rvvm.Vehicle = _vehicleRepo.GetVehicleById(rvvm.VehicleId);
-                _sessionService.SaveToSession(HttpContext, rvvm, ReservationVehicleViewModel.SessionKey);
+                var currModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);
+                currModel.VehicleSetup = rvvm;
+                _sessionService.SaveToSession(HttpContext, currModel, ReservationViewModel.SessionKey);
                 return RedirectToAction("ContactSetup");
                 //Save the View Model in the Session Object.
             }
@@ -59,17 +73,49 @@ namespace CarRentalApplication.Controllers.Reservation
 
         public IActionResult ContactSetup()
         {
-            var currModel = _sessionService.GetFromSession<ReservationContactViewModel>(HttpContext, ReservationContactViewModel.SessionKey)
+            var currContactSetup = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey).ContactSetup
                             ?? new ReservationContactViewModel();
-            return View(currModel);
+            return View(currContactSetup);
         }
 
         [HttpPost]
-        public IActionResult ContactSetup(ReservationContactViewModel rcvm)
+        public async Task<IActionResult> ContactSetup(ReservationContactViewModel rcvm)
         {
             if (ModelState.IsValid)
             {
-                _sessionService.SaveToSession(HttpContext, rcvm, ReservationContactViewModel.SessionKey);
+                var currModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);
+                if (rcvm.Password != null)
+                {
+                    #region CreateNewUser
+                    if (await _userManager.FindByEmailAsync(rcvm.Email) == null)
+                    {
+                        var newUser = Mapper.Map<AppUser>(rcvm);
+                        try
+                        {
+                            var userCreation = await _userManager.CreateAsync(newUser, rcvm.Password);
+                            if (userCreation.Succeeded)
+                            {
+                                await _userManager.AddToRoleAsync(newUser, "customer");
+                                await _signInManager.SignInAsync(newUser, false);
+                                currModel.ApplicationUser = newUser;
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            ModelState.AddModelError(string.Empty, "User Could No be Created");
+                            return View(rcvm);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "This Account already Exists");
+                        return View(rcvm);
+                    }
+                    #endregion
+                }
+                currModel.ReservationContact = Mapper.Map<ReservationContact>(rcvm);
+                currModel.ContactSetup = rcvm;
+                _sessionService.SaveToSession(HttpContext, currModel, ReservationViewModel.SessionKey);
                 return RedirectToAction("Review");
             }
             return View(rcvm);
@@ -77,18 +123,30 @@ namespace CarRentalApplication.Controllers.Reservation
 
         public IActionResult Review()
         {
-            var logisticsSetup = _sessionService.GetFromSession<ReservationLogisticsViewModel>(HttpContext,ReservationLogisticsViewModel.SessionKey);
-            var vehicleSetup = _sessionService.GetFromSession<ReservationVehicleViewModel>(HttpContext, ReservationVehicleViewModel.SessionKey);
-            var contactSetup = _sessionService.GetFromSession<ReservationContactViewModel>(HttpContext, ReservationContactViewModel.SessionKey);
-            var currModel = new ReservationViewModel
-            {
-                LogisticsSetup = logisticsSetup,
-                VehicleSetup = vehicleSetup,
-                ContactSetup = contactSetup
-            };
+            var currModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);
             return View(currModel);
         }
 
+        public IActionResult Confirmation()
+        {
+            var currModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);
+            var reservation = Mapper.Map<Models.Reservation>(currModel);
+            var reservationOwner = _reservationContactRepo.CreateNew(currModel.ReservationContact);
 
+            reservation = _reservationRepo.CreateNewReservation(reservation, reservationOwner.Id);
+            currModel.ConfirmationNumber = reservation.ConfirmationNumber;
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = _userManager.GetUserId(HttpContext.User);
+                _reservationRepo.AddReservationToUser(reservation, userId);
+            }
+            _sessionService.SaveToSession(HttpContext, currModel, ReservationViewModel.SessionKey);
+            return View(currModel);
+        }
+
+        public IActionResult Update()
+        {
+            return View();
+        }
     }
 }
