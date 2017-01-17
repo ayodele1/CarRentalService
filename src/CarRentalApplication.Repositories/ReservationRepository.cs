@@ -75,6 +75,11 @@ namespace CarRentalApplication.Repositories
             return _context.Reservations.Where(x => x.ReservationContact.Id == rc.Id).FirstOrDefault();
         }
 
+        public Reservation GetReservation(long confirmationNumber, Guid reservationContactId)
+        {
+            return _context.Reservations.Where(x => x.ReservationContactId == reservationContactId && x.ConfirmationNumber == confirmationNumber).FirstOrDefault();
+        }
+
         public bool DeleteReservation(Reservation reservationToDelete)
         {
             _context.Reservations.Remove(reservationToDelete);

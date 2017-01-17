@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,6 +10,7 @@ namespace CarRentalApplication.Models
     public class Reservation : IModificationHistory
     {
         [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.None)]
         public long ConfirmationNumber { get; set; }
 
         //ReservationContact Foreign Key

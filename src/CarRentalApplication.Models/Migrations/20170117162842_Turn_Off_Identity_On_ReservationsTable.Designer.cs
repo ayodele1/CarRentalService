@@ -8,9 +8,10 @@ using CarRentalApplication.Models;
 namespace CarRentalApplication.Models.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170117162842_Turn_Off_Identity_On_ReservationsTable")]
+    partial class Turn_Off_Identity_On_ReservationsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")

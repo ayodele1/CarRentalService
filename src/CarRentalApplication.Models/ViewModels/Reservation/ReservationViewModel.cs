@@ -25,16 +25,20 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
         {
             get
             {
-                if(VehicleSetup != null)
+                if (VehicleSetup != null)
                 {
-                    if (this.TotalRentalDays > 0)
+                    if (VehicleSetup.Vehicle != null)
                     {
-                        return (this.VehicleSetup.Vehicle.PricePerDay * TotalRentalDays);
+                        if (this.TotalRentalDays > 0)
+                        {
+                            return (this.VehicleSetup.Vehicle.PricePerDay * TotalRentalDays);
+                        }
+                        return this.VehicleSetup.Vehicle.PricePerDay;
                     }
-                    return this.VehicleSetup.Vehicle.PricePerDay;
                 }
                 return double.MinValue;
             }
+
         }
         public double StateTax
         {

@@ -71,6 +71,7 @@ namespace CarRentalApplication
             {
                 config.CreateMap<RegisterViewModel, AppUser>();
                 config.CreateMap<ReservationContactViewModel, ReservationContact>();
+                config.CreateMap<ReservationContact, ReservationContactViewModel>();
                 config.CreateMap<ReservationContactViewModel, Reservation>();
                 config.CreateMap<ReservationLogisticsViewModel, Reservation>();
                 config.CreateMap<ReservationVehicleViewModel, Reservation>();
@@ -81,6 +82,13 @@ namespace CarRentalApplication
                 .ForMember(dest => dest.ReturnDate, opt => opt.MapFrom(src => src.LogisticsSetup.ReturnDate))
                 .ForMember(dest => dest.UserLocation, opt => opt.MapFrom(src => src.LogisticsSetup.UserLocation))
                 .ForMember(dest => dest.VehicleId, opt => opt.MapFrom(src => src.VehicleSetup.VehicleId));
+                config.CreateMap<Reservation, ReservationViewModel>()
+                .ForMember(dest => dest.LogisticsSetup, opt => opt.MapFrom(src => new ReservationLogisticsViewModel { PickupLocation = src.PickupLocation }))
+                .ForMember(dest => dest.LogisticsSetup, opt => opt.MapFrom(src => new ReservationLogisticsViewModel { ReturnLocation = src.ReturnLocation }))
+                .ForMember(dest => dest.LogisticsSetup, opt => opt.MapFrom(src => new ReservationLogisticsViewModel { PickupDate = src.PickupDate }))
+                .ForMember(dest => dest.LogisticsSetup, opt => opt.MapFrom(src => new ReservationLogisticsViewModel { ReturnDate = src.ReturnDate }))
+                .ForMember(dest => dest.LogisticsSetup, opt => opt.MapFrom(src => new ReservationLogisticsViewModel { UserLocation = src.UserLocation }))
+                .ForMember(dest => dest.VehicleSetup, opt => opt.MapFrom(src => new ReservationVehicleViewModel { VehicleId = src.VehicleId }));
             });
 
             if (env.IsDevelopment())

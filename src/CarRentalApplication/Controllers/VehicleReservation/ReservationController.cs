@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CarRentalApplication.Controllers.Reservation
+namespace CarRentalApplication.Controllers.VehicleReservation
 {
     public class ReservationController : Controller
     {
@@ -34,7 +34,16 @@ namespace CarRentalApplication.Controllers.Reservation
         {
             var currLogistics = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey).LogisticsSetup
                 ?? null;
-            return View(currLogistics);
+            //For testing Only. Remove after
+            var test = new ReservationLogisticsViewModel
+            {
+                PickupDate = DateTime.Now,
+                ReturnDate = DateTime.Now,
+                PickupLocation = "987 Johnson Str, Pawtucket RI",
+                ReturnLocation = "987 Johnson Str, Pawtucket RI",
+                UserLocation = "02860 Pawtucket RI"
+            };
+            return View(test);
         }
 
         [HttpPost]
@@ -130,7 +139,7 @@ namespace CarRentalApplication.Controllers.Reservation
         public IActionResult Confirmation()
         {
             var currModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);
-            var reservation = Mapper.Map<Models.Reservation>(currModel);
+            var reservation = Mapper.Map<Reservation>(currModel);
             var reservationOwner = _reservationContactRepo.CreateNew(currModel.ReservationContact);
 
             reservation = _reservationRepo.CreateNewReservation(reservation, reservationOwner.Id);
@@ -144,9 +153,10 @@ namespace CarRentalApplication.Controllers.Reservation
             return View(currModel);
         }
 
-        public IActionResult Update()
+        public IActionResult Update(Reservation reservationToUpdate)
         {
-            return View();
+            var currModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);
+            return View(currModel);
         }
     }
 }

@@ -7,6 +7,9 @@ using CarRentalApplication.Models.ViewModels.Reservation;
 using Microsoft.AspNetCore.Identity;
 using CarRentalApplication.Models;
 using CarRentalApplication.Repositories;
+using Microsoft.AspNetCore.Routing;
+using CarRentalApplication.Services;
+using AutoMapper;
 
 namespace CarRentalApplication.Controllers
 {
@@ -15,12 +18,16 @@ namespace CarRentalApplication.Controllers
         private UserManager<AppUser> _userManager;
         private ReservationContactRepository _reservationContactRepo;
         private ReservationRepository _reservationRepo;
+        private ViewModelSesssionService _sessionService;
+        private VehicleRepository _vehicleRepo;
 
-        public HomeController(UserManager<AppUser> userMgr,ReservationContactRepository rcr,ReservationRepository rp)
+        public HomeController(UserManager<AppUser> userMgr,ReservationContactRepository rcr,ReservationRepository rp, ViewModelSesssionService vmss, VehicleRepository vrepo)
         {
             _userManager = userMgr;
             _reservationContactRepo = rcr;
             _reservationRepo = rp;
+            _sessionService = vmss;
+            _vehicleRepo = vrepo;
         }
         public IActionResult Index()
         {
@@ -45,12 +52,17 @@ namespace CarRentalApplication.Controllers
                 var reservationContact = _reservationContactRepo.FindByEmail(rsvm.Email);                
                 if(reservationContact != null)
                 {
-                    var reservation = _reservationRepo.FindReservationByContact(reservationContact);
-                    if (reservation == null)
+                    var reservation = _reservationRepo.GetReservation((long)rsvm.ConfirmationNumber, reservationContact.Id);
+                    if (reservation != null)
                     {
-                        ModelState.AddModelError(string.Empty, "Reservation Could not be Found");
+                        reservation.ReservationContact = reservationContact;
+                        var reservationViewModel = Mapper.Map<ReservationViewModel>(reservation);
+                        reservationViewModel.VehicleSetup.Vehicle = _vehicleRepo.GetVehicleById(reservationViewModel.VehicleSetup.VehicleId);
+                        reservationViewModel.ContactSetup = Mapper.Map<ReservationContactViewModel>(reservationContact);
+                        _sessionService.SaveToSession(HttpContext, reservationViewModel, ReservationViewModel.SessionKey);
+                        return RedirectToAction("Update", "Reservation", new RouteValueDictionary(reservation));                        
                     }
-                    return RedirectToAction("Update", "Reservation", reservation);
+                    ModelState.AddModelError(string.Empty, "Reservation Could not be Found");
                 }
                 else
                 {
@@ -58,6 +70,7 @@ namespace CarRentalApplication.Controllers
                 }
             }
             return View(rsvm);
+   
         }
 
         public IActionResult About()
