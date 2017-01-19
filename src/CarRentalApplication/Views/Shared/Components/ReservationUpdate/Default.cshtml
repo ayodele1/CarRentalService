@@ -6,6 +6,7 @@
 
 }
 
+
 <div class="col-md-10 col-md-offset-1">
     <table class="table table-responsive" id="review-form">
         <thead>
@@ -15,43 +16,46 @@
         </thead>
         <tbody>
             <tr class="review-segment-header">
-                <th colspan="3"><u>VEHICLE</u></th>
+                <th><u>VEHICLE</u></th>
+                <th><a asp-controller="Reservation" asp-action="VehicleUpdate"><span class="glyphicon glyphicon-edit reservation-edit"></span></a></th>
             </tr>
-            <tr class="review-segment-content">
+            <tr class="review-segment-content vehicle-segment">
                 <td>NAME</td>
                 <td>@Model.VehicleSetup.Vehicle.Name</td>
             </tr>
-            <tr class="review-segment-content">
+            <tr class="review-segment-content vehicle-segment">
                 <td>MAKE YEAR</td>
                 <td>@Model.VehicleSetup.Vehicle.MakeYear</td>
             </tr>
-            <tr class="review-segment-content">
+            <tr class="review-segment-content vehicle-segment">
                 <td>PASSENGER CAPACITY</td>
                 <td>@Model.VehicleSetup.Vehicle.PassengerCapacity</td>
             </tr>
             <tr class="review-segment-header">
-                <th colspan="2">LOGISTICS</th>
+                <th>LOGISTICS</th>
+                <th><a asp-controller="Reservation" asp-action="LogisticsUpdate"><span class="glyphicon glyphicon-edit reservation-edit"></span></a></th>
             </tr>
-            <tr class="review-segment-content">
+            <tr class="review-segment-content logistics-segment">
                 <td>PICKUP LOCATION AND DATE</td>
                 <td>@Model.LogisticsSetup.PickupLocation ON @Model.LogisticsSetup.PickupDate.ToString("yyyy-MM-dd")</td>
             </tr>
-            <tr class="review-segment-content">
+            <tr class="review-segment-content logistics-segment">
                 <td>RETURN LOCATION AND DATE</td>
-                <td>@Model.LogisticsSetup.ReturnDate ON @Model.LogisticsSetup.ReturnDate.ToString("yyyy-MM-dd")</td>
+                <td>@Model.LogisticsSetup.ReturnLocation ON @Model.LogisticsSetup.ReturnDate.ToString("yyyy-MM-dd")</td>
             </tr>
             <tr class="review-segment-header">
-                <th colspan="2">CONTACT</th>
+                <th>CONTACT</th>
+                <th><a asp-controller="Reservation" asp-action="ContactUpdate"><span class="glyphicon glyphicon-edit reservation-edit"></span></a></th>
             </tr>
-            <tr class="review-segment-content">
+            <tr class="review-segment-content contact-segment">
                 <td>FULL NAME</td>
                 <td>@Model.ContactSetup.FirstName @Model.ContactSetup.LastName</td>
             </tr>
-            <tr class="review-segment-content">
+            <tr class="review-segment-content contact-segment">
                 <td>EMAIL ADDRESS</td>
                 <td>@Model.ContactSetup.Email</td>
             </tr>
-            <tr class="review-segment-content">
+            <tr class="review-segment-content contact-segment">
                 <td>PHONE NUMBER</td>
                 <td>@Model.ContactSetup.PhoneNumber</td>
             </tr>
@@ -77,3 +81,33 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    @if (Model.VehicleSetup.IsDirty)
+    {
+        <text>
+    var x = document.getElementsByClassName('vehicle-segment');
+    for (i = 0; i < x.length; i++) {
+        x[i].className += ' updated-reservation-segment';
+    }
+    </text>
+    }
+    @if (Model.LogisticsSetup.IsDirty)
+    {
+        <text>
+            var x = document.getElementsByClassName('logistics-segment');
+            for (i = 0; i < x.length; i++) {
+                x[i].className += ' updated-reservation-segment';
+            }
+        </text>
+    }
+    @if (Model.ContactSetup.IsDirty)
+    {
+        <text>
+            var x = document.getElementsByClassName('contact-segment');
+        for (i = 0; i < x.length; i++) {
+            x[i].className += ' updated-reservation-segment';
+        }
+        </text>
+    }
+</script>

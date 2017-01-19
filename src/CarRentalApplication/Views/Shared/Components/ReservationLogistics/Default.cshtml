@@ -49,10 +49,20 @@
             </div>
         </div>
         <div class="col-lg-3 pull-right">
-            <button type="submit" value="VEHICLE SETUP" class="btn btn-primary btn-lg">
-                VEHICLE SETUP
-                <span class="glyphicon glyphicon-arrow-right"></span>
-            </button>
+            @if (Model.FormProcessing.FormAction == "LogisticsUpdate")
+            {
+                <button type="submit" value="VEHICLE SETUP" class="btn btn-primary btn-lg reservation-update-btn">
+                    SAVE
+                    <span class="glyphicon glyphicon-save"></span>
+                </button>
+            }
+            else
+            {
+                <button type="submit" value="VEHICLE SETUP" class="btn btn-primary btn-lg">
+                    VEHICLE SETUP
+                    <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+            }
         </div>
     </fieldset>
 </form>

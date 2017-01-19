@@ -14,14 +14,15 @@
 }
 
 .reservation-angular {
-    border-radius: 3px;
+    border-radius: 4px;
 }
 
 .customThumbnail {
     margin-bottom: 30px;
+    border:3px solid white;
 }
 
-#selectedthumbnail {
+#selectedVehicle {
     border: 3px solid green;
 }
 
@@ -63,15 +64,27 @@
 .review-segment-content{
     font-size: 17px;
 }
-
-
-
-
-
-
-.selectedVehicle {
-    border: 2px solid green;
+.reservation-cancel-btn{
+    background-color:white;
+    color:red;
 }
+.reservation-update-btn{
+    background-color:white;
+    color:green;
+}
+.reservation-edit{
+    color:#2c3e50;
+}
+.updated-reservation-segment{
+    color: #acc6ef;
+}
+.reservation-confirmation-text{
+    color:green;
+}
+
+
+
+
 
 #reservationContactForm {
     background-color: #eee !important;

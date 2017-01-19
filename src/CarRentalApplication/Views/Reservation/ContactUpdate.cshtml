@@ -4,11 +4,11 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    Model.FormProcessing = new ViewModel.FormSubmissionViewModel { FormAction = "ContactSetup", FormController = "Reservation" };
+    Model.FormProcessing = new ViewModel.FormSubmissionViewModel { FormAction = "ContactUpdate", FormController = "Reservation" };
 }
 
 <div class="row">
-    <h3 class="pageHeading">Add a contact Information</h3>
+    <h3 class="pageHeading">Update Contact Information</h3>
 
     @await Component.InvokeAsync("ReservationContact", new { rcvm = Model })
 </div>

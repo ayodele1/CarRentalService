@@ -1,0 +1,12 @@
+﻿@using ViewModels = CarRentalApplication.Models.ViewModels
+@model ViewModels.Reservation.ReservationLogisticsViewModel
+@{
+    ViewData["Title"] = "update Reservation";
+    Model.FormProcessing = new ViewModels.FormSubmissionViewModel { FormAction = "LogisticsUpdate", FormController = "Reservation" };
+}
+
+
+<div class="row" id="reservationFormDiv">
+    <h3 class="pageHeading">UPDATE YOUR RESERVATION</h3>
+    @await Component.InvokeAsync("ReservationLogistics", new { rlvm = Model })    
+</div>

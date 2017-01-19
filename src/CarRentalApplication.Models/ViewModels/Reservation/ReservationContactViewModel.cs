@@ -17,6 +17,15 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
         //Use the RegisterViewModel validation
         public FormSubmissionViewModel FormProcessing { get; set; }
 
-        
+        public void CheckIfModelIsDirty(ReservationContactViewModel valueToSet)
+        {
+            if (string.Compare(valueToSet.Email, this.Email) != 0 ||
+                string.Compare(valueToSet.FirstName, this.FirstName) != 0 ||
+                string.Compare(valueToSet.LastName, this.LastName) != 0 ||
+                string.Compare(valueToSet.PhoneNumber, this.PhoneNumber) != 0)
+            {
+                IsDirty = true;
+            }            
+        }
     }
 }

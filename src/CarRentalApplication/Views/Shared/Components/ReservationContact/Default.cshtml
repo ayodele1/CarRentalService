@@ -33,7 +33,7 @@
                     <input type="email" class="form-control contactInfoTextfield" id="reservationEmail" asp-for="Email" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-            </div>      
+            </div>
             <div class="form-group col-md-6">
                 <label class="">PHONE NUMBER<span class="text-danger">*</span></label>
                 <div class="">
@@ -49,7 +49,7 @@
             <div class="form-group col-md-6 disabledAccountReg">
                 <label class="">Password:</label>
                 <div class="">
-                    <input type="password" class="form-control contactInfoTextfield" id="reservationRegPassword" asp-for="Password" disabled/>
+                    <input type="password" class="form-control contactInfoTextfield" id="reservationRegPassword" asp-for="Password" disabled />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
             </div>
@@ -60,16 +60,24 @@
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
             </div>
-        </fieldset>
-        <br />
-        <div class="form-group">
-            <div class="col-md-3 col-md-offset-7">
-                <button type="submit" class="btn btn-primary btn-lg">
-                    REVIEW YOUR RESERVATION
-                    <span class="glyphicon glyphicon-arrow-right"></span>
-                </button>
+            <div class="col-md-3 col-md-offset-7 pull-right">
+                <br />
+                @if (Model.FormProcessing.FormAction == "ContactUpdate")
+                {
+                    <button type="submit" class="btn btn-primary btn-lg reservation-update-btn">
+                        SAVE
+                        <span class="glyphicon glyphicon-save"></span>
+                    </button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        REVIEW YOUR RESERVATION
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                    </button>
+                }
             </div>
-        </div>
+        </fieldset>
     </fieldset>
 </form>
 

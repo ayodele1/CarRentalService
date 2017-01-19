@@ -32,7 +32,7 @@ namespace CarRentalApplication.Controllers.VehicleReservation
         }
         public IActionResult Index()
         {
-            var currLogistics = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey).LogisticsSetup
+            var currLogisticsSetup = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey).LogisticsSetup
                 ?? null;
             //For testing Only. Remove after
             var test = new ReservationLogisticsViewModel
@@ -88,39 +88,23 @@ namespace CarRentalApplication.Controllers.VehicleReservation
         }
 
         [HttpPost]
-        public async Task<IActionResult> ContactSetup(ReservationContactViewModel rcvm)
+        public IActionResult ContactSetup(ReservationContactViewModel rcvm)
         {
             if (ModelState.IsValid)
             {
                 var currModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);
                 if (rcvm.Password != null)
                 {
-                    #region CreateNewUser
-                    if (await _userManager.FindByEmailAsync(rcvm.Email) == null)
+                    var newUser = CreateNewUser(rcvm);
+                    if (newUser != null)
                     {
-                        var newUser = Mapper.Map<AppUser>(rcvm);
-                        try
-                        {
-                            var userCreation = await _userManager.CreateAsync(newUser, rcvm.Password);
-                            if (userCreation.Succeeded)
-                            {
-                                await _userManager.AddToRoleAsync(newUser, "customer");
-                                await _signInManager.SignInAsync(newUser, false);
-                                currModel.ApplicationUser = newUser;
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            ModelState.AddModelError(string.Empty, "User Could No be Created");
-                            return View(rcvm);
-                        }
+                        currModel.ApplicationUser = newUser.Result;
                     }
                     else
                     {
                         ModelState.AddModelError(string.Empty, "This Account already Exists");
                         return View(rcvm);
                     }
-                    #endregion
                 }
                 currModel.ReservationContact = Mapper.Map<ReservationContact>(rcvm);
                 currModel.ContactSetup = rcvm;
@@ -153,10 +137,114 @@ namespace CarRentalApplication.Controllers.VehicleReservation
             return View(currModel);
         }
 
-        public IActionResult Update(Reservation reservationToUpdate)
+        public IActionResult Update()
         {
             var currModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);
             return View(currModel);
         }
+
+        public IActionResult VehicleUpdate()
+        {
+            var currVehicleSetup = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey).VehicleSetup;
+            currVehicleSetup.AvailableVehicles = _vehicleRepo.GetAllAvailableVehicles();
+            return View(currVehicleSetup);
+        }
+
+        [HttpPost]
+        public IActionResult VehicleUpdate(ReservationVehicleViewModel rvvm)
+        {
+            rvvm.Vehicle = _vehicleRepo.GetVehicleById(rvvm.VehicleId);
+            var currReservationViewModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);
+            currReservationViewModel.VehicleSetup = rvvm;
+            _sessionService.SaveToSession(HttpContext, currReservationViewModel, ReservationViewModel.SessionKey);
+            return RedirectToAction("Update");
+        }
+
+        public IActionResult LogisticsUpdate()
+        {
+            var currLogisticsSetup = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey).LogisticsSetup;
+            return View(currLogisticsSetup);
+        }
+
+        [HttpPost]
+        public IActionResult LogisticsUpdate(ReservationLogisticsViewModel rlvm)
+        {
+            if (ModelState.IsValid)
+            {                
+                var currReservationViewModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);
+                currReservationViewModel.LogisticsSetup = rlvm;
+                _sessionService.SaveToSession(HttpContext, currReservationViewModel, ReservationViewModel.SessionKey);
+                return RedirectToAction("Update ");
+            }
+            return View(rlvm);
+        }
+
+        public IActionResult ContactUpdate()
+        {
+            var currContactSetup = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey).ContactSetup;
+            return View(currContactSetup);
+        }
+
+        [HttpPost]
+        public IActionResult ContactUpdate(ReservationContactViewModel rcvm)
+        {
+            if (ModelState.IsValid)
+            {
+                var currReservationViewModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);
+                if (rcvm.Password != null)
+                {
+                    var newUser = CreateNewUser(rcvm);
+                    if(newUser != null)
+                    {
+                        currReservationViewModel.ApplicationUser = newUser.Result;
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "This Account already Exists");
+                        return View(rcvm);
+                    }
+                }
+                currReservationViewModel.ReservationContact = Mapper.Map<ReservationContact>(rcvm);
+                currReservationViewModel.ContactSetup = rcvm;
+                _sessionService.SaveToSession(HttpContext, currReservationViewModel, ReservationViewModel.SessionKey);
+                return RedirectToAction("Update");
+            }
+            return View(rcvm);
+        }
+
+        public IActionResult UpdateConfirmation()
+        {
+            var currReservationViewModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);            
+            var reservationToUpdate = Mapper.Map<Reservation>(currReservationViewModel);
+            _reservationRepo.UpdateReservation(reservationToUpdate);
+            return View(currReservationViewModel);
+        }
+
+
+        #region PrivateMethods
+
+        private async Task<AppUser> CreateNewUser(ReservationContactViewModel rcvm)
+        {
+            if (await _userManager.FindByEmailAsync(rcvm.Email) == null)
+            {
+                var newUser = Mapper.Map<AppUser>(rcvm);
+                try
+                {
+                    var userCreation = await _userManager.CreateAsync(newUser, rcvm.Password);
+                    if (userCreation.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(newUser, "customer");
+                        await _signInManager.SignInAsync(newUser, false);
+                        return newUser;
+                    }
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+            return null;
+        }
+        #endregion
     }
 }

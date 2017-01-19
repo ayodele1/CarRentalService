@@ -68,65 +68,20 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
         }
 
         [Required(ErrorMessage = "Your Location is Required")]
-        public string UserLocation
-        {
-            get { return _userLocation; }
-            set
-            {
-                _userLocation = value;
-                if (string.Compare(value, _userLocation) != 0)
-                    _isDirty = true;
-            }
-        }
+        public string UserLocation { get; set; }
 
-        [Required (ErrorMessage = "Please Select a Pickup Location")]
-        public string PickupLocation
-        {
-            get { return _pickupLocation; }
-            set
-            {
-                _pickupLocation = value;
-                if (string.Compare(value, _pickupLocation) != 0)
-                    _isDirty = true;
-            }
-        }
+        [Required(ErrorMessage = "Please Select a Pickup Location")]
+        public string PickupLocation { get; set; }        
 
         [Required(ErrorMessage = "Please select a Return Location")]
-        public string ReturnLocation
-        {
-            get { return _returnLocation; }
-            set
-            {
-                _returnLocation = value;
-                if (string.Compare(value, _returnLocation) != 0)
-                    _isDirty = true;
-            }
-        }
+        public string ReturnLocation { get; set; }
 
         [IsStoreOpen]
-        public DateTime PickupDate
-        {
-            get { return _pickupDate; }
-            set
-            {
-                _pickupDate = value;
-                if (DateTime.Compare(value, _pickupDate) != 0)
-                    _isDirty = true;
-            }
-        }
+        public DateTime PickupDate { get; set; }
 
         [IsStoreOpen]
         [IsTimeDurationValid("PickupDate")]
-        public DateTime ReturnDate
-        {
-            get { return _returnDate; }
-            set
-            {
-                _returnDate = value;
-                if (DateTime.Compare(value, _pickupDate) != 0)
-                    _isDirty = true;
-            }
-        }
+        public DateTime ReturnDate { get; set; }
 
         public List<string> StoreLocations
         {
@@ -135,5 +90,17 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
         }
 
         public FormSubmissionViewModel FormProcessing { get; set; }
+
+        public void CheckIfModelIsDirty(ReservationLogisticsViewModel valueToSet)
+        {
+            if(string.Compare(valueToSet.UserLocation, _userLocation) != 0 ||
+               string.Compare(valueToSet.PickupLocation, _pickupLocation) != 0 ||
+               string.Compare(valueToSet.ReturnLocation, _returnLocation) != 0 ||
+               DateTime.Compare(valueToSet.PickupDate, _pickupDate) != 0 ||
+               DateTime.Compare(valueToSet.ReturnDate, _returnDate) != 0)
+            {
+                _isDirty = true;
+            }
+        }
     }
 }

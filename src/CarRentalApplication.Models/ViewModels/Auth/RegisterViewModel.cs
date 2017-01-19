@@ -8,7 +8,18 @@ namespace CarRentalApplication.Models.ViewModels.Auth
 {
     public class RegisterViewModel
     {
+        private bool _isDirty = false;
+        private string _firstName = string.Empty;
+        private string _lastName = string.Empty;
+        private string _email = string.Empty;
+        private string _phoneNumber = string.Empty;
         [Required(ErrorMessage = "FirstName is Required")]
+
+        public bool IsDirty
+        {
+            get { return _isDirty; }
+            set { _isDirty = value; }
+        }
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "LastName is Required")]

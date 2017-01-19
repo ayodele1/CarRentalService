@@ -8,11 +8,46 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
     public class ReservationViewModel : IFormProcessing
     {
         public static string SessionKey = "rvm";
-        public ReservationLogisticsViewModel LogisticsSetup { get; set; }
+        private ReservationContactViewModel _contactSetup;
+        private ReservationVehicleViewModel _vehicleSetup;
+        private ReservationLogisticsViewModel _logisticsSetup;
+        public ReservationLogisticsViewModel LogisticsSetup
+        {
+            get { return _logisticsSetup; }
+            set
+            {
+                if (_logisticsSetup != null)
+                {
+                    value.CheckIfModelIsDirty(_logisticsSetup);                    
+                }
+                _logisticsSetup = value;
+            }
+        }
+        public ReservationVehicleViewModel VehicleSetup
+        {
+            get { return _vehicleSetup; }
+            set
+            {
+                if (_vehicleSetup != null)
+                {
+                    value.CheckIfModelIsDirty(_vehicleSetup);
+                }
+                _vehicleSetup = value;
+            }
+        }
 
-        public ReservationVehicleViewModel VehicleSetup { get; set; }
-
-        public ReservationContactViewModel ContactSetup { get; set; }
+        public ReservationContactViewModel ContactSetup
+        {
+            get { return _contactSetup; }
+            set
+            {
+                if (_contactSetup != null)
+                {
+                    value.CheckIfModelIsDirty(_contactSetup);
+                }
+                _contactSetup = value;
+            }
+        }
 
         public long ConfirmationNumber { get; set; }
 

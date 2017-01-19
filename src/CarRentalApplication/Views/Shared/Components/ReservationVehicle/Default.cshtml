@@ -7,16 +7,16 @@
 
 @foreach (var vehicle in Model.AvailableVehicles)
 {
-    string thumbnailId = "";
+    var thumbnailId = "";
     @if (Model.Vehicle != null)
     {
-        thumbnailId = (Model.Vehicle.Id == vehicle.Id) ? "selectedthumbnail" : "";
+        thumbnailId = (Model.Vehicle.Id == vehicle.Id) ? "selectedVehicle" : vehicle.Id.ToString();
     }
-    <div class="col-xs-12 col-md-4 customThumbnail" Id=@thumbnailId style="padding:8px;">
+    <div class="col-xs-12 col-md-4 customThumbnail" id=@thumbnailId   style="padding:8px;">
         <div class="card">
             <div class="front" style="border:1px solid #e6ebf7;min-height:220px;">
                 <span class="pull-left numeric"> @string.Concat("$", vehicle.PricePerDay) / day</span>
-                <img src="~/images/@(vehicle.ImageName)" style="height:180px;" />
+                <img src="~/images/@(vehicle.ImageName)" style="height:150px;" />
             </div>
             <div class="back" style="min-height:220px;">
                 <h3 class="table-header text-center">@vehicle.Name.ToUpper()</h3>

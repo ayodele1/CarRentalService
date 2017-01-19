@@ -59,7 +59,6 @@ namespace CarRentalApplication.Repositories
 
         public bool UpdateReservation(Reservation reservationToUpdate)
         {
-            _context.Reservations.Attach(reservationToUpdate);
             _context.Entry(reservationToUpdate).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
             return true;
