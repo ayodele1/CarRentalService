@@ -219,7 +219,14 @@ namespace CarRentalApplication.Controllers.VehicleReservation
             _reservationRepo.UpdateReservation(reservationToUpdate);
             return View(currReservationViewModel);
         }
-
+        
+        public IActionResult CancelReservation()
+        {
+            var currReservationViewModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);
+            var reservationToCancel = Mapper.Map<Reservation>(currReservationViewModel);
+            _reservationRepo.DeleteReservation(reservationToCancel);
+            return View(currReservationViewModel);
+        }
 
         #region PrivateMethods
 

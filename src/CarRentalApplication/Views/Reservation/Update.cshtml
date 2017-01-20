@@ -1,16 +1,23 @@
-﻿@model CarRentalApplication.Models.ViewModels.Reservation.ReservationViewModel
+﻿@using CarRentalApplication.Models.ViewModels
+@model CarRentalApplication.Models.ViewModels.Reservation.ReservationViewModel
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    var reservationCancellationFormSubmission = new FormSubmissionViewModel
+    {
+        FormController = "Reservation",
+        FormAction = "CancelReservation"
+    };
 }
 
 <div class="row">
     <h3 class="pageHeading">Update / Cancel Reservation R:@Model.ConfirmationNumber</h3>
+    @await Component.InvokeAsync("YesNoModal", new { fsvm = reservationCancellationFormSubmission });
     @await Component.InvokeAsync("ReservationUpdate", new { rvm = Model })
     <div class="col-md-10 pull-right">
         <a class="btn btn-lg btn-primary" asp-controller="Home" asp-action="Index">BACK TO HOMEPAGE</a>        
-        <a class="btn btn-lg btn-danger reservation-cancel-btn">CANCEL RESERVATION</a>
+        <a class="btn btn-lg btn-danger reservation-cancel-btn" data-toggle="modal" data-target="#yesnoModal">CANCEL RESERVATION</a>
         <a class="btn btn-lg btn-success reservation-update-btn" asp-controller="Reservation" asp-action="UpdateConfirmation">SAVE AND UPDATE RESERVATION</a>                
     </div>
 </div>

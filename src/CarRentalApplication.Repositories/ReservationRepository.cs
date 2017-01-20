@@ -81,7 +81,7 @@ namespace CarRentalApplication.Repositories
 
         public bool DeleteReservation(Reservation reservationToDelete)
         {
-            _context.Reservations.Remove(reservationToDelete);
+            _context.Entry(reservationToDelete).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;           
             var isdeleted = _context.SaveChanges();
             return true;
         }
