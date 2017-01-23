@@ -1,4 +1,5 @@
 ﻿using CarRentalApplication.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,19 +31,140 @@ namespace CarRentalApplication.Repositories
             return _context.Vehicles.Where(x => x.Id == id).FirstOrDefault();
         }
 
-        public IEnumerable<Vehicle> GetVehicleByFilter(VehicleType vt)
+        public IEnumerable<Vehicle> GetVehicleByFilter(VehicleProperty selectedVehicleProperty, VehicleFilter filter)
         {
-            if (vt == VehicleType.All)
+            switch (selectedVehicleProperty.FilterName)
             {
-                return GetAll();
+                case "ModelType":
+                    if(string.Equals(filter.PropertyType, selectedVehicleProperty.ToString()))
+                        return GetVehiclesByModelType(filter.FilterName);
+                    return GetVehiclesByModelType("All");
+                case "MakeYear":
+                    if (string.Equals(filter.PropertyType, selectedVehicleProperty.ToString()))
+                        return GetVehiclesByMakeYear(filter.FilterName);
+                    return GetVehiclesByMakeYear("2016");
+                case "PassengerCapacity":
+                    if (string.Equals(filter.PropertyType, selectedVehicleProperty.ToString()))
+                        return GetVehiclesByPassengerCapacity(filter.FilterName);
+                    return GetVehiclesByPassengerCapacity("5");
+                case "WheelDrive":
+                    if (string.Equals(filter.PropertyType, selectedVehicleProperty.ToString()))
+                        return GetVehiclesByWheelDrive(filter.FilterName);
+                    return GetVehiclesByWheelDrive("AllWheel");
+                default:
+                    return GetVehiclesByModelType(filter.FilterName);
             }
-            return _context.Vehicles.Where(x => x.ModelType == vt);
+           
         }
 
         public void AddNewVehicle(Vehicle newVehicle)
         {
             _context.Vehicles.Add(newVehicle);
             _context.SaveChanges();
+        }
+
+        private IEnumerable<Vehicle> GetVehiclesByModelType(string vehiclefilter)
+        {
+            VehicleType equivalentVehicleType;
+            if(Enum.TryParse(vehiclefilter, out equivalentVehicleType))
+            {
+                switch (equivalentVehicleType)
+                {
+                    case VehicleType.All:
+                        return GetAll();
+                    default:
+                        return _context.Vehicles.Where(x => x.ModelType == equivalentVehicleType);
+                }
+            }
+
+            return GetAll();
+        }
+
+        private IEnumerable<Vehicle> GetVehiclesByMakeYear(string vehicleFilter)
+        {
+            int b = int.Parse(vehicleFilter);
+            return _context.Vehicles.Where(x => x.MakeYear == int.Parse(vehicleFilter));
+        }
+
+        private IEnumerable<Vehicle> GetVehiclesByPassengerCapacity(string vehicleFilter)
+        {
+            int a = int.Parse(vehicleFilter);
+            return _context.Vehicles.Where(x => x.PassengerCapacity == int.Parse(vehicleFilter));
+        }
+
+        private IEnumerable<Vehicle> GetVehiclesByWheelDrive(string vehicleFilter)
+        {
+            WheelDrive equivalentWheelDrive;
+            if (Enum.TryParse(vehicleFilter, out equivalentWheelDrive))
+            {
+                switch (equivalentWheelDrive)
+                {
+                    default:
+                        return _context.Vehicles.Where(x => x.WheelDrive == equivalentWheelDrive);
+                }
+            }
+            return GetAll();
+        }
+
+        public SelectList GetFiltersByModelTypes()
+        {
+            var filters = new List<VehicleFilter>()
+            {
+                new VehicleFilter {Id=4, FilterName = "All", PropertyType = "ModelType" },
+                new VehicleFilter {Id=0, FilterName="Car", PropertyType = "ModelType"},
+                new VehicleFilter {Id=1, FilterName="SUV", PropertyType = "ModelType" },
+                new VehicleFilter {Id=2, FilterName="Truck", PropertyType = "ModelType" },
+                new VehicleFilter {Id=3, FilterName="Luxury", PropertyType = "ModelType" }
+            };
+            return new SelectList(filters, "FilterName", "FilterName");
+        }
+
+        public SelectList GetFilterByMakeYear()
+        {
+            var filters = new List<VehicleFilter>()
+            {
+                new VehicleFilter {Id=4, FilterName = "2016", PropertyType = "MakeYear" },
+                new VehicleFilter {Id=0, FilterName="2015", PropertyType = "MakeYear"},
+                new VehicleFilter {Id=1, FilterName="2014", PropertyType = "MakeYear" },
+                new VehicleFilter {Id=2, FilterName="2013", PropertyType = "MakeYear" },
+            };
+            return new SelectList(filters, "FilterName", "FilterName");
+        }
+
+        public SelectList GetFilterByPassengerCapacity()
+        {
+            var filters = new List<VehicleFilter>()
+            {
+                new VehicleFilter {Id=4, FilterName = ">6", PropertyType = "PassengerCapacity" },
+                new VehicleFilter {Id=0, FilterName="5", PropertyType = "PassengerCapacity"},
+                new VehicleFilter {Id=1, FilterName="4", PropertyType = "PassengerCapacity" },
+                new VehicleFilter {Id=2, FilterName="<4", PropertyType = "PassengerCapacity" },                
+            };
+            return new SelectList(filters, "FilterName", "FilterName");
+        }
+
+        public SelectList GetFilterByWheelDrive()
+        {
+            var filters = new List<VehicleFilter>()
+            {
+                new VehicleFilter {Id=4, FilterName = "FrontWheel", PropertyType = "WheelDrive" },
+                new VehicleFilter {Id=0, FilterName="AllWheel", PropertyType = "WheelDrive"},
+                new VehicleFilter {Id=1, FilterName="FourWheel", PropertyType = "WheelDrive" },
+                new VehicleFilter {Id=2, FilterName="RearWheel", PropertyType = "WheelDrive" },                
+            };
+            return new SelectList(filters, "FilterName", "FilterName");
+        }
+
+        public SelectList GetVehicleFilterProperties()
+        {
+            var properties = new List<VehicleProperty>()
+            {
+                new VehicleProperty {Id=4, FilterName = "ModelType" },
+                new VehicleProperty {Id=0, FilterName="MakeYear"},
+                new VehicleProperty {Id=1, FilterName="PassengerCapacity" },
+                new VehicleProperty {Id=2, FilterName="WheelDrive" },
+            };
+            return new SelectList(properties, "FilterName", "FilterName");
         }
     }
 }

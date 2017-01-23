@@ -13,6 +13,11 @@
         form.submit();
     });
 
+    $('#carInventoryPropertyFilter').on('change', function (event) {
+        var form = $(event.target).parents('form');
+        form.submit();
+    });
+
     $('.vehicleDetails').on('click', function () {
         $(this).closest('.customThumbnail').find('.card').flip('toggle');
     });

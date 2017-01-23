@@ -1,0 +1,62 @@
+﻿@model CarRentalApplication.Models.ViewModels.Home.CarInventoryViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var i = 0;
+}
+<div class="row">
+    <form asp-controller="Home" asp-action="CarInventory" role="form">
+        <div class="col-md-5">
+            <h3 class="pageHeading">ALL VEHICLES</h3>
+        </div>
+
+        <div class="col-md-3">
+            <select asp-for="selectedVehiclePropery.FilterName" asp-items="@Model.VehicleProperties" id="carInventoryPropertyFilter" class="form-control"></select>
+        </div>
+
+        <div class="col-md-3">
+            <select asp-for="SelectedFilter.FilterName" asp-items="@Model.VehicleFilters" id="carInventoryFilter" class="form-control"></select>
+            <input type="hidden" asp-for="SelectedFilter.PropertyType" />
+        </div>
+    </form>
+</div>
+<div class="row">
+    @foreach (var vehicle in Model.Vehicles)
+    {
+        i = i + 1;
+        var carid = string.Concat("card", i);
+        <div class="col-xs-12 col-md-4 customThumbnail" id=@carid style="padding:8px;">
+            <div class="card">
+                <div class="front" style="border:1px solid #e6ebf7;min-height:220px;">
+                    <span class="pull-left numeric"> @string.Concat("$", vehicle.PricePerDay) / day</span>
+                    <img src="~/images/@(vehicle.ImageName)" style="height:150px;" />
+                </div>
+                <div class="back" style="min-height:220px;">
+                    <h3 class="table-header text-center">@vehicle.Name.ToUpper()</h3>
+                    <hr class="table-header-line" />
+                    <table class="table-responsive table-bordered vehicleDetailsTable">
+                        <tr>
+                            <td>PASSENGER CAPACITY</td>
+                            <td>@vehicle.PassengerCapacity</td>
+                        </tr>
+                        <tr>
+                            <td>WHEEL DRIVE</td>
+                            <td>@vehicle.WheelDrive</td>
+                        </tr>
+                        <tr>
+                            <td>MAKE YEAR</td>
+                            <td>@vehicle.MakeYear</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="caption">
+                    @vehicle.Name
+                    <span class="pull-right">
+                        <input type="button" value="More Details" class="vehicleDetails btn btn-default btn-sm" />
+                    </span>
+            </div>
+        </div>
+    }
+</div>

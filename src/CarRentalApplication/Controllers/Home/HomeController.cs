@@ -10,6 +10,8 @@ using CarRentalApplication.Repositories;
 using Microsoft.AspNetCore.Routing;
 using CarRentalApplication.Services;
 using AutoMapper;
+using CarRentalApplication.Models.ViewModels.Home;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CarRentalApplication.Controllers
 {
@@ -21,7 +23,7 @@ namespace CarRentalApplication.Controllers
         private ViewModelSesssionService _sessionService;
         private VehicleRepository _vehicleRepo;
 
-        public HomeController(UserManager<AppUser> userMgr,ReservationContactRepository rcr,ReservationRepository rp, ViewModelSesssionService vmss, VehicleRepository vrepo)
+        public HomeController(UserManager<AppUser> userMgr, ReservationContactRepository rcr, ReservationRepository rp, ViewModelSesssionService vmss, VehicleRepository vrepo)
         {
             _userManager = userMgr;
             _reservationContactRepo = rcr;
@@ -49,8 +51,8 @@ namespace CarRentalApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                var reservationContact = _reservationContactRepo.FindByEmail(rsvm.Email);                
-                if(reservationContact != null)
+                var reservationContact = _reservationContactRepo.FindByEmail(rsvm.Email);
+                if (reservationContact != null)
                 {
                     var reservation = _reservationRepo.GetReservation((long)rsvm.ConfirmationNumber, reservationContact.Id);
                     if (reservation != null)
@@ -60,7 +62,7 @@ namespace CarRentalApplication.Controllers
                         reservationViewModel.VehicleSetup.Vehicle = _vehicleRepo.GetVehicleById(reservationViewModel.VehicleSetup.VehicleId);
                         reservationViewModel.ContactSetup = Mapper.Map<ReservationContactViewModel>(reservationContact);
                         _sessionService.SaveToSession(HttpContext, reservationViewModel, ReservationViewModel.SessionKey);
-                        return RedirectToAction("Update", "Reservation", new RouteValueDictionary(reservation));                        
+                        return RedirectToAction("Update", "Reservation", new RouteValueDictionary(reservation));
                     }
                     ModelState.AddModelError(string.Empty, "Reservation Could not be Found");
                 }
@@ -70,7 +72,42 @@ namespace CarRentalApplication.Controllers
                 }
             }
             return View(rsvm);
-   
+
+        }
+
+        public IActionResult CarInventory(string filter)
+        {
+            var vehicleFilter = new VehicleFilter { FilterName = filter, PropertyType = "ModelType" };
+            var vehicleProperty = new VehicleProperty { FilterName = "ModelType" };
+            var filteredVehicles = _vehicleRepo.GetVehicleByFilter(vehicleProperty, vehicleFilter);
+            var civm = new CarInventoryViewModel { Vehicles = filteredVehicles, VehicleProperties = _vehicleRepo.GetVehicleFilterProperties(), SelectedFilter = vehicleFilter, VehicleFilters = GetVehicleFilters("ModelType") };
+            return View(civm);
+        }
+
+        [HttpPost]
+        public IActionResult CarInventory(CarInventoryViewModel civm)
+        {
+            civm.Vehicles = _vehicleRepo.GetVehicleByFilter(civm.selectedVehiclePropery, civm.SelectedFilter);
+            civm.VehicleFilters = GetVehicleFilters(civm.selectedVehiclePropery.FilterName);
+            civm.VehicleProperties = _vehicleRepo.GetVehicleFilterProperties();
+            return View(civm);
+        }
+
+        private SelectList GetVehicleFilters(string filterProperty)
+        {
+            switch (filterProperty)
+            {
+                case "ModelType":
+                    return _vehicleRepo.GetFiltersByModelTypes();
+                case "MakeYear":
+                    return _vehicleRepo.GetFilterByMakeYear();
+                case "PassengerCapacity":
+                    return _vehicleRepo.GetFilterByPassengerCapacity();
+                case "WheelDrive":
+                    return _vehicleRepo.GetFilterByWheelDrive();
+                default:
+                    return _vehicleRepo.GetFiltersByModelTypes();
+            }
         }
 
         public IActionResult About()
