@@ -4,6 +4,7 @@
 *@
 @{
     var i = 0;
+    var a = Model;
 }
 <div class="row">
     <form asp-controller="Home" asp-action="CarInventory" role="form">
@@ -13,11 +14,11 @@
 
         <div class="col-md-3">
             <select asp-for="selectedVehiclePropery.FilterName" asp-items="@Model.VehicleProperties" id="carInventoryPropertyFilter" class="form-control"></select>
+            <input type="hidden" asp-for="PropertyFilter" value="@(Model.PropertyFilter)" />
         </div>
 
         <div class="col-md-3">
-            <select asp-for="SelectedFilter.FilterName" asp-items="@Model.VehicleFilters" id="carInventoryFilter" class="form-control"></select>
-            <input type="hidden" asp-for="SelectedFilter.PropertyType" />
+            <select asp-for="SelectedFilter" asp-items="@Model.VehicleFilters" id="carInventoryFilter" class="form-control"></select>
         </div>
     </form>
 </div>

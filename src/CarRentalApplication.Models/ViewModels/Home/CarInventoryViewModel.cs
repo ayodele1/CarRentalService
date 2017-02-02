@@ -11,8 +11,10 @@ namespace CarRentalApplication.Models.ViewModels.Home
         public IEnumerable<Vehicle> Vehicles { get; set; }
         public SelectList VehicleFilters { get; set; }
         public SelectList VehicleProperties { get; set; }
-        public VehicleFilter SelectedFilter { get; set; }
+        public string SelectedFilter { get; set; }
         public VehicleProperty selectedVehiclePropery { get; set; }
+
+        public string PropertyFilter { get; set; }
 
     }
 }

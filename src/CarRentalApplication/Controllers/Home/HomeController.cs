@@ -77,17 +77,21 @@ namespace CarRentalApplication.Controllers
 
         public IActionResult CarInventory(string filter)
         {
-            var vehicleFilter = new VehicleFilter { FilterName = filter, PropertyType = "ModelType" };
             var vehicleProperty = new VehicleProperty { FilterName = "ModelType" };
-            var filteredVehicles = _vehicleRepo.GetVehicleByFilter(vehicleProperty, vehicleFilter);
-            var civm = new CarInventoryViewModel { Vehicles = filteredVehicles, VehicleProperties = _vehicleRepo.GetVehicleFilterProperties(), SelectedFilter = vehicleFilter, VehicleFilters = GetVehicleFilters("ModelType") };
+            string currentPropertyFilter = "ModelType";
+            var filteredVehicles = _vehicleRepo.GetVehiclesByFilter(vehicleProperty, filter);
+            var civm = new CarInventoryViewModel { Vehicles = filteredVehicles, VehicleProperties = _vehicleRepo.GetVehicleFilterProperties(), SelectedFilter = filter, VehicleFilters = GetVehicleFilters("ModelType"), PropertyFilter = currentPropertyFilter };
             return View(civm);
         }
 
         [HttpPost]
         public IActionResult CarInventory(CarInventoryViewModel civm)
         {
-            civm.Vehicles = _vehicleRepo.GetVehicleByFilter(civm.selectedVehiclePropery, civm.SelectedFilter);
+            //If the User Selects a Different Vehicle Property
+            civm.Vehicles = (string.Equals(civm.selectedVehiclePropery.FilterName, civm.PropertyFilter)) ?
+                civm.Vehicles = _vehicleRepo.GetVehiclesByFilter(civm.selectedVehiclePropery, civm.SelectedFilter) :
+                civm.Vehicles = _vehicleRepo.GetVehiclesByProperty(civm.selectedVehiclePropery);
+            civm.PropertyFilter = civm.selectedVehiclePropery.FilterName;          
             civm.VehicleFilters = GetVehicleFilters(civm.selectedVehiclePropery.FilterName);
             civm.VehicleProperties = _vehicleRepo.GetVehicleFilterProperties();
             return View(civm);

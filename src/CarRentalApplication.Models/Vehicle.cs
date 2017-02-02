@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -6,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace CarRentalApplication.Models
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum VehicleType
     {
         Car,
@@ -15,6 +18,7 @@ namespace CarRentalApplication.Models
         All
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum WheelDrive
     {
         FrontWheel,
@@ -40,7 +44,7 @@ namespace CarRentalApplication.Models
         public VehicleType ModelType { get; set; }
 
         public WheelDrive WheelDrive { get; set; }
-
+        [JsonIgnore]
         public int isAvailable { get; set; }
 
         [NotMapped]
