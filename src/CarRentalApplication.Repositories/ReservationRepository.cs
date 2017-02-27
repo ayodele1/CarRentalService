@@ -24,7 +24,7 @@ namespace CarRentalApplication.Repositories
             return _context.Reservations.ToList();
         }
 
-        public Reservation FindReservationByConfirmationNumber(long confirmationNumber)
+        public Reservation GetReservationByConfirmationNumber(long confirmationNumber)
         {
             return _context.Reservations.Find(confirmationNumber);
         }
@@ -86,9 +86,9 @@ namespace CarRentalApplication.Repositories
             return true;
         }
 
-        public IEnumerable<Reservation> GetReservationsForUser(string userId)
+        public IEnumerable<Reservation> GetReservationsForUser(string appUserId)
         {
-            return _context.Reservations.Where(x => x.AppUserId == userId).ToList();
+            return _context.Reservations.Where(x => x.AppUserId == appUserId).ToList();
         }
     }
 }

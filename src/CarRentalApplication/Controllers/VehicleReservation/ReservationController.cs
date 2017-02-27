@@ -3,6 +3,7 @@ using CarRentalApplication.Models;
 using CarRentalApplication.Models.ViewModels.Reservation;
 using CarRentalApplication.Repositories;
 using CarRentalApplication.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace CarRentalApplication.Controllers.VehicleReservation
 {
+    [Authorize]
     public class ReservationController : Controller
     {
         private VehicleRepository _vehicleRepo;

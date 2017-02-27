@@ -14,6 +14,11 @@ using CarRentalApplication.Models.ViewModels.Auth;
 using CarRentalApplication.Repositories;
 using CarRentalApplication.Services;
 using CarRentalApplication.Models.ViewModels.Reservation;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.IO;
 
 namespace CarRentalApplication
 {
@@ -58,6 +63,30 @@ namespace CarRentalApplication
             services.AddDistributedMemoryCache();
             services.AddSession();
             services.AddSingleton<ViewModelSesssionService>();
+
+            services.Configure<IdentityOptions>(config =>
+            {
+                config.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents()
+                {
+                    OnRedirectToLogin = (cae) =>
+                    {
+                        if (cae.Request.Path.StartsWithSegments("/api") && cae.Response.StatusCode == 200)
+                        {
+                            cae.Response.StatusCode = 401;
+                        }
+                        return Task.CompletedTask;
+                    },
+
+                    OnRedirectToAccessDenied = (cae) =>
+                    {
+                        if (cae.Request.Path.StartsWithSegments("/api") && cae.Response.StatusCode == 200)
+                        {
+                            cae.Response.StatusCode = 403;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
+            });
 
         }
 
@@ -105,8 +134,31 @@ namespace CarRentalApplication
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseSession();
+            //app.Use(async (context, next) =>
+            //{
+            //    await next();
+            //    if (context.Response.StatusCode == 404
+            //    && !Path.HasExtension(context.Request.Path.Value))
+            //    {
+            //        context.Request.Path = "/index.html";
+            //        await next();
+            //    }
+            //});
             app.UseStaticFiles();
             app.UseIdentity();
+            app.UseJwtBearerAuthentication(new JwtBearerOptions()
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidIssuer = Configuration["Tokens:Issuer"],
+                    ValidAudience = Configuration["Tokens:Audience"],
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"])),
+                    ValidateLifetime = true
+               }
+            });
 
             app.UseMvc(routes =>
             {

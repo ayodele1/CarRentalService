@@ -23,6 +23,12 @@ namespace CarRentalApplication.Api.Controllers
             return "ayodele";
         }
 
+        [HttpGet("zinga")]
+        public IActionResult GetZinga()
+        {
+            return Ok("zinga");
+        }
+
         // POST api/values
         [HttpPost]
         public void Post([FromBody]string value)

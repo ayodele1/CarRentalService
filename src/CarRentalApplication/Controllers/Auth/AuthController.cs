@@ -38,7 +38,7 @@ namespace CarRentalApplication.Controllers.Auth
         {
             if (ModelState.IsValid)
             {
-                var userSignedIn = await _signInManager.PasswordSignInAsync(lvm.Email, lvm.Password, true, false);
+                var userSignedIn = await _signInManager.PasswordSignInAsync(lvm.Email, lvm.Password, false,false);
                 if (userSignedIn.Succeeded)
                 {
                     if (string.IsNullOrWhiteSpace(returnUrl))
