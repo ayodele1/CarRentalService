@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IO;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Newtonsoft.Json.Serialization;
 
 namespace CarRentalApplication
 {
@@ -40,7 +42,14 @@ namespace CarRentalApplication
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(option => {
+                    option.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    })
+                .AddMvcOptions(option => option.OutputFormatters.Add(
+                    new XmlDataContractSerializerOutputFormatter()));
+
 
 
 
@@ -113,13 +122,13 @@ namespace CarRentalApplication
                 .ForMember(dest => dest.VehicleId, opt => opt.MapFrom(src => src.VehicleSetup.VehicleId));
                 config.CreateMap<Reservation, ReservationViewModel>()
                 .ForMember(dest => dest.LogisticsSetup, opt => opt.MapFrom(src => new ReservationLogisticsViewModel
-                    {
-                        PickupLocation = src.PickupLocation,
-                        ReturnLocation = src.ReturnLocation,
-                        PickupDate = src.PickupDate,
-                        ReturnDate = src.ReturnDate,
-                        UserLocation = src.UserLocation
-                    })
+                {
+                    PickupLocation = src.PickupLocation,
+                    ReturnLocation = src.ReturnLocation,
+                    PickupDate = src.PickupDate,
+                    ReturnDate = src.ReturnDate,
+                    UserLocation = src.UserLocation
+                })
                 )
                 .ForMember(dest => dest.VehicleSetup, opt => opt.MapFrom(src => new ReservationVehicleViewModel { VehicleId = src.VehicleId }));
             });
@@ -157,7 +166,7 @@ namespace CarRentalApplication
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"])),
                     ValidateLifetime = true
-               }
+                }
             });
 
             app.UseMvc(routes =>

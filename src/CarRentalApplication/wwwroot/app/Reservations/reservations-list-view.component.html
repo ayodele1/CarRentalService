@@ -1,0 +1,40 @@
+﻿
+<div class="row">
+    <div class="col-md-10" *ngIf='userReservations && userReservations.length'>
+        <div class="" *ngFor='let reservation of userReservations' >
+            <div class="well well-lg form-group form-group-lg">
+                <a style="font-size:25px">R:{{reservation.confirmationNumber }}</a>
+                <a asp-controller="Home" asp-action="" class="col-sm-offset-5"></a>
+                <a class="btn btn-sm btn-default"> Details</a>&nbsp;&nbsp;
+                <a class="btn btn-sm btn-primary">Update</a>&nbsp;&nbsp;
+                <a style="color:red" class="btn btn-sm btn-dafault">Cancel</a>&nbsp;&nbsp;
+            </div>
+            <table class="table table-responsive table-striped reservation-angular">
+                <tr class="reservation-summary-table-header">
+                    <th><h5><b><i>PRICE DETAILS</i></b></h5></th>
+                    <th></th>
+                    <td>Vehicle Price 2 days:&nbsp;</td>
+                    <td class=""><p><b>$44.0</b></p></td>
+                    <td>Total Cost:&nbsp;</td>
+                    <td class="numeric"><b>${{reservation.totalCost}}</b></td>
+                </tr>
+
+                <tr class="reservation-summary-table-header">
+                    <th><h5><b><i>LOGISTICS</i></b></h5></th>
+                    <th></th>
+
+                    <td>PickUp / Return Location:&nbsp;</td>
+                    <td class=""><p><b>{{reservation.pickupLocation}}</b></p></td>
+
+                    <td>Pickup Date:&nbsp;</td>
+                    <td class=""><p><b>{{reservation.pickupDate | date:'MM-dd-yyyy' }}</b></p></td>
+                    <td>Return Date:&nbsp;</td>
+                    <td class=""><b>{{reservation.returnDate | date:'MM-dd-yyyy' }}</b></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    console.log("ayod" + userReservations);
+</script>

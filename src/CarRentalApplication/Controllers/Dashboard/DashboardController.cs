@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CarRentalApplication.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace CarRentalApplication.Controllers.Dashboard
     public class DashboardController : Controller
     {
         public IActionResult Home()
-        {
+        {            
             return View();
         }
     }

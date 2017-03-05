@@ -41,8 +41,8 @@ namespace CarRentalApplication.Api.Controllers
                     if(_passwordHasher.VerifyHashedPassword(user, user.PasswordHash, lvm.Password) == PasswordVerificationResult.Success)
                     {
                         var claims = new[]
-                        {
-                            new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                        {                            
+                            new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                         };
                         var encryptionKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
@@ -63,7 +63,7 @@ namespace CarRentalApplication.Api.Controllers
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
             return BadRequest("Failed to generate Token");
