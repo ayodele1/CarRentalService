@@ -15,6 +15,8 @@ var ReservationComponent = (function () {
     function ReservationComponent(_reservationApiService) {
         this._reservationApiService = _reservationApiService;
         this.name = "ayodele";
+        this.showDetails = false;
+        this.showUpdateForm = false;
     }
     ReservationComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -25,10 +27,17 @@ var ReservationComponent = (function () {
             console.log("User Reservations Class Variable:  " + _this.userReservations);
         }, function (error) { return _this.errorMessage = error; });
     };
+    ReservationComponent.prototype.toggleDetails = function () {
+        this.showDetails = !this.showDetails;
+    };
+    ReservationComponent.prototype.toggleUpdate = function () {
+        this.showUpdateForm = !this.showUpdateForm;
+    };
     ReservationComponent = __decorate([
         core_1.Component({
             selector: 'reservationsList',
-            templateUrl: 'app/Reservations/reservations-list-view.component.html'
+            //templateUrl: 'app/Reservations/views/reservations-list-view.component.html'
+            templateUrl: 'Dashboard/ReservationList'
         }), 
         __metadata('design:paramtypes', [reservation_api_service_1.ReservationApiService])
     ], ReservationComponent);

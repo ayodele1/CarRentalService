@@ -14,7 +14,7 @@ export class ReservationApiService {
     }
 
     getReservations(): Observable<IReservation[]> {
-        return this._http.get(this.apiUrl.concat('reservations/'))
+        return this._http.get(this.apiUrl.concat('reservations?includevehicledetails=true'))
             .map((response: Response) => <IReservation[]>response.json())
             .do(data => console.log('All: ' + JSON.stringify(data)))
             .catch(this.handleError);

@@ -33,6 +33,8 @@ namespace CarRentalApplication.Api.Controllers
         [HttpPost("token")]
         public async Task<IActionResult> CreateToken([FromBody] LoginViewModel lvm)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             try
             {
                 var user = await _userMgr.FindByEmailAsync(lvm.Email);

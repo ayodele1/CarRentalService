@@ -5,7 +5,8 @@ import 'rxjs/add/operator/do';
 
 @Component({
     selector: 'reservationsList',
-    templateUrl: 'app/Reservations/reservations-list-view.component.html'
+    //templateUrl: 'app/Reservations/views/reservations-list-view.component.html'
+    templateUrl: 'Dashboard/ReservationList'
 })
 
 
@@ -13,6 +14,8 @@ export class ReservationComponent implements OnInit {
     errorMessage: string;
     userReservations: IReservation[];
     name: string = "ayodele";
+    showDetails: boolean = false;
+    showUpdateForm: boolean = false;
 
     constructor(private _reservationApiService: ReservationApiService) {
         
@@ -28,5 +31,13 @@ export class ReservationComponent implements OnInit {
                     },
             error => this.errorMessage = <any>error
             );        
+    }
+
+    toggleDetails(): void {
+        this.showDetails = !this.showDetails;
+    }
+
+    toggleUpdate(): void {
+        this.showUpdateForm = !this.showUpdateForm;
     }
 }

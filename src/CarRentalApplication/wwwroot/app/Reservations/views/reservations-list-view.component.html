@@ -1,0 +1,111 @@
+﻿
+<div class="row">
+    <h4>Reservations</h4>
+    <hr />
+    <div class="col-md-10" *ngIf='userReservations && userReservations.length'>
+        <div class="" *ngFor='let reservation of userReservations'>
+            <div class="well form-group form-group-lg">
+                <a style="font-size:25px">R:{{reservation.confirmationNumber }}</a>
+                <a asp-controller="Home" asp-action="" class="col-sm-offset-5"></a>
+                <a class="btn btn-sm btn-default" (click) = 'toggleDetails()'>{{ showDetails ? 'Hide':'Show'}} Details</a>&nbsp;&nbsp;
+                <a class="btn btn-sm btn-primary">Update</a>&nbsp;&nbsp;
+                <a style="color:red" class="btn btn-sm btn-dafault">Cancel</a>&nbsp;&nbsp;
+            </div>
+            <table class="table table-responsive" id="review-form" *ngIf='showDetails'>
+                <thead>
+                    <tr class="review-header">
+                        <td colspan="2"><img src="/images/{{reservation.vehicle.imageName}}" id="rentalVehicle" height="120" width="200" style="display:block; margin:0 auto;" /></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="review-segment-header">
+                        <th colspan="2"><u>VEHICLE</u></th>
+                    </tr>
+                    <tr class="review-segment-content">
+                        <td>NAME</td>
+                        <td>{{reservation.vehicle.name}}</td>
+                    </tr>
+                    <tr class="review-segment-content">
+                        <td>MAKE YEAR</td>
+                        <td>{{reservation.vehicle.makeYear}}</td>
+                    </tr>
+                    <tr class="review-segment-content">
+                        <td>PASSENGER CAPACITY</td>
+                        <td>{{reservation.vehicle.passengerCapacity}}</td>
+                    </tr>
+                    <tr class="review-segment-header">
+                        <th colspan="2">LOGISTICS</th>
+                    </tr>
+                    <tr class="review-segment-content">
+                        <td>PICKUP LOCATION AND DATE</td>
+                        <td>{{reservation.pickupLocation}} ON {{reservation.pickupDate | date:'MM-dd-yyyy' }}</td>
+                    </tr>
+                    <tr class="review-segment-content">
+                        <td>RETURN LOCATION AND DATE</td>
+                        <td>{{ reservation.returnLocation }} ON {{reservation.returnDate | date:'MM-dd-yyyy' }}</td>
+                    </tr>
+                    <!--<tr class="review-segment-header">
+                        <th colspan="2">CONTACT</th>
+                    </tr>
+                    <tr class="review-segment-content">
+                        <td>FULL NAME</td>
+                        <td>@Model.ContactSetup.FirstName @Model.ContactSetup.LastName</td>
+                    </tr>
+                    <tr class="review-segment-content">
+                        <td>EMAIL ADDRESS</td>
+                        <td>@Model.ContactSetup.Email</td>
+                    </tr>
+                    <tr class="review-segment-content">
+                        <td>PHONE NUMBER</td>
+                        <td>@Model.ContactSetup.PhoneNumber</td>
+                    </tr>-->
+                    <tr class="review-segment-header">
+                        <th colspan="2">TOTAL COST</th>
+                    </tr>
+                    <!--<tr class="review-segment-content">
+                        <td>VEHICLE COST</td>
+                        <td>$@Model.TotalVehicleCostMinusTax</td>
+                    </tr>-->
+                    <tr class="review-segment-content">
+                        <td>FEDERAL TAX</td>
+                        <td>${{ reservation.federalTax }}</td>
+                    </tr>
+                    <tr class="review-segment-content">
+                        <td>STATE TAX</td>
+                        <td>${{ reservation.stateTax }}</td>
+                    </tr>
+                    <tr class="review-segment-content">
+                        <td>TOTAL COST</td>
+                        <td>${{ reservation.totalCost }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--<table class="table table-responsive table-striped reservation-angular" *ngIf='showDetails'>
+                <tr class="reservation-summary-table-header">
+                    <th><h5><b><i>PRICE DETAILS</i></b></h5></th>
+                    <th></th>
+                    <td>Vehicle Price 2 days:&nbsp;</td>
+                    <td class=""><p><b>$44.0</b></p></td>
+                    <td>Total Cost:&nbsp;</td>
+                    <td class="numeric"><b>${{reservation.totalCost}}</b></td>
+                </tr>
+
+                <tr class="reservation-summary-table-header">
+                    <th><h5><b><i>LOGISTICS</i></b></h5></th>
+                    <th></th>
+
+                    <td>PickUp / Return Location:&nbsp;</td>
+                    <td class=""><p><b>{{reservation.pickupLocation}}</b></p></td>
+
+                    <td>Pickup Date:&nbsp;</td>
+                    <td class=""><p><b>{{reservation.pickupDate | date:'MM-dd-yyyy' }}</b></p></td>
+                    <td>Return Date:&nbsp;</td>
+                    <td class=""><b>{{reservation.returnDate | date:'MM-dd-yyyy' }}</b></td>
+                </tr>
+            </table>-->
+        </div>
+    </div>
+</div>
+<script>
+    console.log("ayod" + userReservations);
+</script>

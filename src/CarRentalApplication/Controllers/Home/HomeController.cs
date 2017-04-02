@@ -62,7 +62,7 @@ namespace CarRentalApplication.Controllers
                         reservationViewModel.VehicleSetup.Vehicle = _vehicleRepo.GetVehicleById(reservationViewModel.VehicleSetup.VehicleId);
                         reservationViewModel.ContactSetup = Mapper.Map<ReservationContactViewModel>(reservationContact);
                         _sessionService.SaveToSession(HttpContext, reservationViewModel, ReservationViewModel.SessionKey);
-                        return RedirectToAction("Update", "Reservation", new RouteValueDictionary(reservation));
+                        return RedirectToAction("Update", "Reservation");
                     }
                     ModelState.AddModelError(string.Empty, "Reservation Could not be Found");
                 }

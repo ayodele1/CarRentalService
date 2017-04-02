@@ -1,5 +1,6 @@
 ﻿using CarRentalApplication.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,6 +90,11 @@ namespace CarRentalApplication.Repositories
         public IEnumerable<Reservation> GetReservationsForUser(string appUserId)
         {
             return _context.Reservations.Where(x => x.AppUserId == appUserId).ToList();
+        }
+
+        public IEnumerable<Reservation> GetReservationWithVehicleDetails(string appUserId)
+        {
+            return _context.Reservations.Where(x => x.AppUserId == appUserId).Include(v => v.Vehicle).ToList();
         }
     }
 }

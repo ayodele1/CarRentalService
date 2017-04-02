@@ -20,7 +20,7 @@ var ReservationApiService = (function () {
         this.apiUrl = 'http://localhost:5000/api/';
     }
     ReservationApiService.prototype.getReservations = function () {
-        return this._http.get(this.apiUrl.concat('reservations/'))
+        return this._http.get(this.apiUrl.concat('reservations?includevehicledetails=true'))
             .map(function (response) { return response.json(); })
             .do(function (data) { return console.log('All: ' + JSON.stringify(data)); })
             .catch(this.handleError);

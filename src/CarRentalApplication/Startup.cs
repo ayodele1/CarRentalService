@@ -21,6 +21,8 @@ using System.Text;
 using System.IO;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Http;
+using CarRentalApplication.Models.ViewModels.Api;
 
 namespace CarRentalApplication
 {
@@ -61,6 +63,7 @@ namespace CarRentalApplication
                 config.Password.RequireNonAlphanumeric = false;
                 config.Password.RequireUppercase = false;
                 config.Cookies.ApplicationCookie.LoginPath = "/Auth/Login";
+                config.Cookies.ApplicationCookie.AutomaticChallenge = true;
             })
             .AddEntityFrameworkStores<AppDbContext>();
             services.AddDbContext<AppDbContext>();
@@ -95,6 +98,8 @@ namespace CarRentalApplication
                         return Task.CompletedTask;
                     }
                 };
+                config.Cookies.ApplicationCookie.AutomaticChallenge = true;
+                config.Cookies.ApplicationCookie.LoginPath = "/Auth/Login";
             });
 
         }
@@ -113,6 +118,9 @@ namespace CarRentalApplication
                 config.CreateMap<ReservationContactViewModel, Reservation>();
                 config.CreateMap<ReservationLogisticsViewModel, Reservation>();
                 config.CreateMap<ReservationVehicleViewModel, Reservation>();
+                config.CreateMap<ApiContactViewModel, ReservationContact>();
+                config.CreateMap<ApiVehicleViewModel, Vehicle>();
+                config.CreateMap<Reservation, Reservation>();
                 config.CreateMap<ReservationViewModel, Reservation>()
                 .ForMember(dest => dest.PickupLocation, opt => opt.MapFrom(src => src.LogisticsSetup.PickupLocation))
                 .ForMember(dest => dest.ReturnLocation, opt => opt.MapFrom(src => src.LogisticsSetup.ReturnLocation))
@@ -131,6 +139,25 @@ namespace CarRentalApplication
                 })
                 )
                 .ForMember(dest => dest.VehicleSetup, opt => opt.MapFrom(src => new ReservationVehicleViewModel { VehicleId = src.VehicleId }));
+                config.CreateMap<Reservation, ApiReservationViewModel>()
+                .ForMember(dest => dest.Vehicle, opt => opt.MapFrom(src => new ApiVehicleViewModel
+                {
+                    Id = src.VehicleId,
+                    MakeYear = src.Vehicle.MakeYear,
+                    ModelType = src.Vehicle.ModelType,
+                    Name = src.Vehicle.Name,
+                    PassengerCapacity = src.Vehicle.PassengerCapacity,
+                    PricePerDay = src.Vehicle.PricePerDay,
+                    WheelDrive = src.Vehicle.WheelDrive
+                }))
+                .ForMember(dest => dest.ReservationContact, opt => opt.MapFrom(src => new ApiContactViewModel
+                {
+                    Email = src.ReservationContact.Email,
+                    FirstName = src.ReservationContact.FirstName,
+                    LastName = src.ReservationContact.LastName,
+                    PhoneNumber = src.ReservationContact.PhoneNumber
+                }));
+                config.CreateMap<ApiReservationViewModel, Reservation>();
             });
 
             if (env.IsDevelopment())
@@ -168,7 +195,6 @@ namespace CarRentalApplication
                     ValidateLifetime = true
                 }
             });
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

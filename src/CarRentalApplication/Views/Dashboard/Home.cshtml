@@ -17,10 +17,14 @@
 }
 
 <div class="row">
-    Welcome to your Dashboard
-    <br />
+        <div class="col-xs-4">            
+            <a asp-controller="Home" asp-action="Index" ><span class="glyphicon glyphicon-plus" style="font-size:2.5em;"></span>&nbsp; Add A New Reservation</a>
+        </div>
+    <br /><br /><br />
     <!--Angular App-->
-    <ng-application>
-        Loading Dashboard...
-    </ng-application>
+    <div class="col-md-12 col-sm-5">
+        <ng-application>
+            <h3 style="color:coral"><b>Loading Reservations...</b></h3>
+        </ng-application>
+    </div>
 </div>
