@@ -25,9 +25,32 @@ namespace CarRentalApplication.Repositories
             return _context.Reservations.ToList();
         }
 
-        public Reservation GetReservationByConfirmationNumber(long confirmationNumber)
+        public Reservation GetReservationByConfirmationNumber(long confirmationNumber, bool includeVehicleDetails = false, bool includeContactDetails = false)
         {
-            return _context.Reservations.Find(confirmationNumber);
+            var reservationToGet = _context.Reservations.Where(x => x.ConfirmationNumber == confirmationNumber);
+            if (includeVehicleDetails)
+            {
+                reservationToGet = reservationToGet.Include(v => v.Vehicle);
+            }
+            if (includeContactDetails)
+            {
+                reservationToGet = reservationToGet.Include(rc => rc.ReservationContact);
+            }
+            return reservationToGet.FirstOrDefault();
+        }
+
+        public IEnumerable<Reservation> GetReservationsForUser(string appUserId, bool includeVehicleDetails = false, bool includeContactDetails = false)
+        {
+            var reservationsToGet = _context.Reservations.Where(x => x.AppUserId == appUserId);
+            if (includeVehicleDetails)
+            {
+                reservationsToGet = reservationsToGet.Include(v => v.Vehicle);
+            }
+            if (includeContactDetails)
+            {
+                reservationsToGet = reservationsToGet.Include(rc => rc.ReservationContact);
+            }
+            return reservationsToGet.ToList();
         }
 
         public Reservation CreateNewReservation(Reservation newReservation, Guid reservationContactId)
@@ -85,16 +108,6 @@ namespace CarRentalApplication.Repositories
             _context.Entry(reservationToDelete).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;           
             var isdeleted = _context.SaveChanges();
             return true;
-        }
-
-        public IEnumerable<Reservation> GetReservationsForUser(string appUserId)
-        {
-            return _context.Reservations.Where(x => x.AppUserId == appUserId).ToList();
-        }
-
-        public IEnumerable<Reservation> GetReservationWithVehicleDetails(string appUserId)
-        {
-            return _context.Reservations.Where(x => x.AppUserId == appUserId).Include(v => v.Vehicle).ToList();
         }
     }
 }

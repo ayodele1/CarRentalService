@@ -39,7 +39,7 @@ namespace CarRentalApplication.Api.Controllers
                 var user = await _userMgr.FindByIdAsync(userId);
                 if (user != null)
                 {
-                    IEnumerable<Reservation> reservations = includevehicledetails ? _reservationRepo.GetReservationWithVehicleDetails(user.Id)
+                    IEnumerable<Reservation> reservations = includevehicledetails ? _reservationRepo.GetReservationsForUser(user.Id,true)
                         : _reservationRepo.GetReservationsForUser(user.Id);
                     if (reservations == null || reservations.ToList().Count == 0)
                         return NotFound($"User {user.UserName} has no reservations");

@@ -138,7 +138,19 @@ namespace CarRentalApplication
                     UserLocation = src.UserLocation
                 })
                 )
-                .ForMember(dest => dest.VehicleSetup, opt => opt.MapFrom(src => new ReservationVehicleViewModel { VehicleId = src.VehicleId }));
+                .ForMember(dest => dest.VehicleSetup, opt => opt.MapFrom(src => new ReservationVehicleViewModel
+                {
+                    VehicleId = src.VehicleId,
+                    Vehicle = src.Vehicle
+                }))
+                .ForMember(dest => dest.ContactSetup, opt => opt.MapFrom(src => new ReservationContactViewModel
+                {
+                    Email = src.ReservationContact.Email,
+                    PhoneNumber = src.ReservationContact.PhoneNumber,
+                    FirstName = src.ReservationContact.FirstName,
+                    LastName = src.ReservationContact.LastName
+                }))
+                ;
                 config.CreateMap<Reservation, ApiReservationViewModel>()
                 .ForMember(dest => dest.Vehicle, opt => opt.MapFrom(src => new ApiVehicleViewModel
                 {

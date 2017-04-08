@@ -1,5 +1,5 @@
 ﻿$(function () {
-    console.log("yah");
+    console.log("Now processing Custom.js");
     $(".pickupdate").datepicker();
 
     $(".returndate").datepicker();
@@ -31,6 +31,17 @@
         }
         $("#reservationRegPassword").prop("disabled", !$(this).is(':checked'));
         $("#reservationRegConfirmPassword").prop("disabled", !$(this).is(':checked'));
+
+    });
+    
+    $('#showdetailsbtn').click(function () {
+        $('.dashboard-reservations-list').slideToggle();
+        console.log($("#showdetailsbtn").text());
+        if ($("#showdetailsbtn").text() === "Show Details") {
+            $("#showdetailsbtn").text("Hide Details");
+        } else {
+            $("#showdetailsbtn").text("Show Details");
+        }
 
     });
 });

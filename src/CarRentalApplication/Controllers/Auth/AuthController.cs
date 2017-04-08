@@ -43,7 +43,7 @@ namespace CarRentalApplication.Controllers.Auth
                 {
                     if (string.IsNullOrWhiteSpace(returnUrl))
                     {
-                        return RedirectToAction("Home", "Dashboard");
+                        return RedirectToAction("Index", "Dashboard");
                     }
                     else
                     {
