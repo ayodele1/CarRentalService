@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 
 namespace CarRentalApplication.Controllers.VehicleReservation
 {
-    [Authorize]
     public class ReservationController : Controller
     {
         private VehicleRepository _vehicleRepo;
@@ -139,12 +138,14 @@ namespace CarRentalApplication.Controllers.VehicleReservation
             return View(currModel);
         }
 
+        [Authorize]
         public IActionResult Update()
         {
             var currModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);
             return View(currModel);
         }
 
+        [Authorize]
         public IActionResult VehicleUpdate()
         {
             var currVehicleSetup = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey).VehicleSetup;
@@ -152,6 +153,7 @@ namespace CarRentalApplication.Controllers.VehicleReservation
             return View(currVehicleSetup);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult VehicleUpdate(ReservationVehicleViewModel rvvm)
         {
@@ -162,12 +164,14 @@ namespace CarRentalApplication.Controllers.VehicleReservation
             return RedirectToAction("Update");
         }
 
+        [Authorize]
         public IActionResult LogisticsUpdate()
         {
             var currLogisticsSetup = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey).LogisticsSetup;
             return View(currLogisticsSetup);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult LogisticsUpdate(ReservationLogisticsViewModel rlvm)
         {
@@ -181,12 +185,14 @@ namespace CarRentalApplication.Controllers.VehicleReservation
             return View(rlvm);
         }
 
+        [Authorize]
         public IActionResult ContactUpdate()
         {
             var currContactSetup = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey).ContactSetup;
             return View(currContactSetup);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult ContactUpdate(ReservationContactViewModel rcvm)
         {
@@ -214,6 +220,7 @@ namespace CarRentalApplication.Controllers.VehicleReservation
             return View(rcvm);
         }
 
+        [Authorize]
         public IActionResult UpdateConfirmation()
         {
             var currReservationViewModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);            
@@ -221,7 +228,8 @@ namespace CarRentalApplication.Controllers.VehicleReservation
             _reservationRepo.UpdateReservation(reservationToUpdate);
             return View(currReservationViewModel);
         }
-        
+
+        [Authorize]
         public IActionResult CancelReservation()
         {
             var currReservationViewModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);

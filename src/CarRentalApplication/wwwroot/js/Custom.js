@@ -1,8 +1,7 @@
 ﻿$(function () {
-    console.log("Now processing Custom.js");
-    $(".pickupdate").datepicker();
+    $(".pickupdate").datepicker({ dateFormat: "yy-mm-dd" }).datepicker("setDate", "0");
 
-    $(".returndate").datepicker();
+    $(".returndate").datepicker({ dateFormat: "yy-mm-dd" }).datepicker("setDate", "0");
 
     $('.card').flip({
         trigger: 'manual'

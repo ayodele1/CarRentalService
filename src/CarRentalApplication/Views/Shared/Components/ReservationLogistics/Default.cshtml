@@ -7,7 +7,6 @@
 
 <form asp-controller=@(Model.FormProcessing.FormController) asp-action=@(Model.FormProcessing.FormAction) asp-route-returnurl="@ViewBag.ReturnUrl" method="post" class="form-horizontal" id="reservationForm" role="form">
     <fieldset>
-        @*<legend style="color:brown">&nbsp; START YOUR RESERVATION NOW</legend>*@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group form-group-lg">
             <label class="col-lg-4 control-label">YOUR LOCATION (CITY OR ZIP)</label>
@@ -48,21 +47,24 @@
                 <span asp-validation-for="ReturnDate" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-lg-3 pull-right">
-            @if (Model.FormProcessing.FormAction == "LogisticsUpdate")
+        <div class="form-group form-group-lg">
+            <label class="col-lg-4 control-label"></label>
+            <div class="col-lg-6 col-lg-offset-1">
+                @if (Model.FormProcessing.FormAction == "LogisticsUpdate")
             {
-                <button type="submit" value="VEHICLE SETUP" class="btn btn-primary btn-lg reservation-update-btn">
-                    SAVE
-                    <span class="glyphicon glyphicon-save"></span>
-                </button>
-            }
-            else
-            {
-                <button type="submit" value="VEHICLE SETUP" class="btn btn-primary btn-lg">
-                    VEHICLE SETUP
-                    <span class="glyphicon glyphicon-arrow-right"></span>
-                </button>
-            }
+                    <button type="submit" value="VEHICLE SETUP" class="btn btn-primary btn-lg reservation-update-btn">
+                        SAVE
+                        <span class="glyphicon glyphicon-save"></span>
+                    </button>
+                }
+                else
+                {
+                    <button type="submit" value="VEHICLE SETUP" class="btn btn-primary btn-lg">
+                        VEHICLE SETUP
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                    </button>
+                }
+            </div>
         </div>
     </fieldset>
 </form>
