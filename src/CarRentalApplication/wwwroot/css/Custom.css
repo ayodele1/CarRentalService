@@ -1,7 +1,7 @@
 ﻿fieldset {
     background-color: #fcfdff;
-    -moz-border-radius: 2px;
-    border-radius: 2px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
 
 .pageHeading {
@@ -63,6 +63,11 @@
 }
 .review-segment-content{
     font-size: 17px;
+    color:darkgoldenrod;
+}
+.review-segment-title{
+    color:darkslategrey;
+    font-family:'Lucida Sans Typewriter';
 }
 .reservation-cancel-btn{
     background-color:white;
@@ -79,7 +84,12 @@
     color: #acc6ef;
 }
 .reservation-confirmation-text{
-    color:green;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 17px;
+    color:darkblue;
+}
+table{
+    
 }
 
 

@@ -6,16 +6,17 @@
 }
 
 <div class="row">
-    <div class="col-md-5">
-        <h6 class="reservation-confirmation-text">Your car has been reserved! Your Confirmation Number is @Model.ConfirmationNumber. An email has been sent to @Model.ContactSetup.Email </h6>
+    <div class="col-md-7 col-md-offset-1">
+        <h6 class="reservation-confirmation-text">Your car has been reserved! Your Confirmation Number is <span style="font-size:20px;">@Model.ConfirmationNumber</span>. An email has been sent to @Model.ContactSetup.Email </h6>
     </div>
-    <div class="col-md-3">
-        <input type="button" class="btn btn-sm" value="MAKE ANOTHER RESERVATION"/>
+    <div class="col-md-2 pull-right">
+        <a class="glyphicon glyphicon-home text-lg-center" style="font-size:1.8em;" asp-action="Index" asp-controller="Home"></a>
     </div>
-    <div class="col-md-3">
-        <input type="button" class="btn btn-sm" value="BACK TO HOME" />
-    </div>
-
+    <br /><br /><br />
+    @*<div class="col-md-3 col-md-offset-1">
+        <a class="btn btn-primary">MAKE ANOTHER RESERVATION</a>
+    </div>*@
+    <h3 class="pageHeading col-md-offset-1">Reservation Details</h3>
     @await Component.InvokeAsync("ReservationReview", new { rvm = Model })
     
 </div>

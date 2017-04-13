@@ -60,24 +60,19 @@
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
             </div>
-            <div class="col-md-3 col-md-offset-7 pull-right">
-                <br />
-                @if (Model.FormProcessing.FormAction == "ContactUpdate")
-                {
-                    <button type="submit" class="btn btn-primary btn-lg reservation-update-btn">
-                        SAVE
-                        <span class="glyphicon glyphicon-save"></span>
-                    </button>
-                }
-                else
-                {
-                    <button type="submit" class="btn btn-primary btn-lg">
-                        REVIEW YOUR RESERVATION
-                        <span class="glyphicon glyphicon-arrow-right"></span>
-                    </button>
-                }
-            </div>
         </fieldset>
+        <div class="col-md-6 col-md-offset-3 text-center">
+            <br />
+            @if (Model.FormProcessing.FormAction == "ContactUpdate")
+            {
+                <input type="submit" class="btn btn-primary btn-lg reservation-update-btn"  value="SAVE"/>
+            }
+            else
+            {
+                <input type="submit" class="btn btn-primary" btn-lg" value="REVIEW YOUR RESERVATION" />
+            }
+        </div>
+
     </fieldset>
 </form>
 

@@ -1,7 +1,8 @@
 ﻿$(function () {
-    $(".pickupdate").datepicker({ dateFormat: "yy-mm-dd" }).datepicker("setDate", "0");
+    var dateToday = new Date();
+    $(".pickupdate").datepicker({ dateFormat: "yy-mm-dd", minDate: dateToday }).datepicker("setDate", "0");
 
-    $(".returndate").datepicker({ dateFormat: "yy-mm-dd" }).datepicker("setDate", "0");
+    $(".returndate").datepicker({ dateFormat: "yy-mm-dd", minDate:dateToday }).datepicker("setDate", "0");
 
     $('.card').flip({
         trigger: 'manual'
