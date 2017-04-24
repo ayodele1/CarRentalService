@@ -11,14 +11,14 @@
         <div class="form-group form-group-lg">
             <label class="col-lg-4 control-label">YOUR LOCATION (CITY OR ZIP)</label>
             <div class="col-lg-7 col-lg-offset-1">
-                <input asp-for="UserLocation" type="text" class="form-control input-lg search-field" id="userLocation" onfocus="geolocate();" placeholder="Enter a Location" value=@(Model.UserLocation)>
+                <input asp-for="UserLocation" type="text" class="form-control input-lg search-field" tabindex="1" id="userLocation" onfocus="geolocate();" placeholder="Enter a Location" value=@(Model.UserLocation)>
                 <span asp-validation-for="UserLocation" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group form-group-lg">
             <label class="col-lg-4 control-label">PICKUP LOCATION</label>
             <div class="col-lg-6 col-lg-offset-1">
-                <select style="width:100%" class="form-control storeLocation" id="" asp-for="PickupLocation" asp-items="@(new SelectList(Model.StoreLocations))">
+                <select style="width:100%" class="form-control storeLocation" id="" asp-for="PickupLocation" tabindex="2" asp-items="@(new SelectList(Model.StoreLocations))">
                     <option selected="selected" disabled="disabled">Select Pickup Store Location</option>
                 </select>
                 <span asp-validation-for="PickupLocation" class="text-danger"></span>
@@ -27,7 +27,7 @@
         <div class="form-group form-group-lg">
             <label class="col-lg-4 control-label">RETURN LOCATION</label>
             <div class="col-lg-6 col-lg-offset-1">
-                <select style="width:100%" class="form-control storeLocation" id="" asp-for="ReturnLocation" asp-items="@(new SelectList(Model.StoreLocations))">
+                <select style="width:100%" class="form-control storeLocation" id="" asp-for="ReturnLocation" tabindex="3" asp-items="@(new SelectList(Model.StoreLocations))">
                     <option selected="selected" disabled="disabled">Select Return Store Location</option>
                 </select>
                 <span asp-validation-for="ReturnLocation" class="text-danger"></span>
@@ -36,14 +36,14 @@
         <div class="form-group form-group-lg">
             <label class="col-lg-4 control-label">PICKUP DATE</label>
             <div class="col-lg-6 col-lg-offset-1">
-                <input type="text" asp-for="PickupDate" class="form-control input-lg pickupdate" readonly />
+                <input type="text" asp-for="PickupDate" tabindex="4" class="form-control input-lg pickupdate" readonly />
                 <span asp-validation-for="PickupDate" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group form-group-lg">
             <label class="col-lg-4 control-label">RETURN DATE</label>
             <div class="col-lg-6 col-lg-offset-1">
-                <input type="text" asp-for="ReturnDate" class="form-control input-lg returndate" readonly />
+                <input type="text" asp-for="ReturnDate" tabindex="5" class="form-control input-lg returndate" readonly />
                 <span asp-validation-for="ReturnDate" class="text-danger"></span>
             </div>
         </div>
@@ -52,14 +52,14 @@
             <div class="col-lg-6 col-lg-offset-1">
                 @if (Model.FormProcessing.FormAction == "LogisticsUpdate")
             {
-                    <button type="submit" value="VEHICLE SETUP" class="btn btn-primary btn-lg reservation-update-btn">
+                    <button type="submit" value="VEHICLE SETUP" tabindex="7" class="btn btn-primary btn-lg reservation-update-btn">
                         SAVE
                         <span class="glyphicon glyphicon-save"></span>
                     </button>
                 }
                 else
                 {
-                    <button type="submit" value="VEHICLE SETUP" class="btn btn-primary btn-lg">
+                    <button type="submit" value="VEHICLE SETUP" tabindex="7" class="btn btn-primary btn-lg">
                         VEHICLE SETUP
                         <span class="glyphicon glyphicon-arrow-right"></span>
                     </button>

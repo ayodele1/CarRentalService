@@ -21,35 +21,38 @@
 }
 
 <div class="row">
-    <div class="col-xs-4">
-        <a asp-controller="Home" asp-action="Index"><span class="glyphicon glyphicon-plus" style="font-size:2.5em;"></span>&nbsp;New Reservation</a>
+    <h3 class="pageHeading">Dashboard</h3>
+    <div class="col-md-offset-4 col-md-3 dashboard-segment dashboard-tool-segment text-center">
+        <a asp-controller="Home" class="dashboard-tool" asp-action="Index" data-toggle="tooltip" title="Create New Reservation"><span class="glyphicon glyphicon-plus" style="font-size:2.5em;"></span></a>&nbsp;
+        <a><span class="glyphicon glyphicon-cog" style="font-size:2.5em;"></span></a>
     </div>
-    <br /><br /><br />
     <!--Angular App-->
-    <div class="col-lg-12">
+    <div class="col-lg-8 col-md-7 dashboard-segment dashboard-reservation-segment">
         @*<ng-application>
                 <h3 style="color:coral"><b>Loading Reservations...</b></h3>
             </ng-application>*@
 
         <h4>Reservations</h4>
         <hr />
+        @if(Model.UserReservations.Count() == 0)
+        {
+            <p>Welcome! You have no reservations.<a asp-action="Index" asp-controller="Home"> <u><i>Start a new Reservation</i></u></a></p>
+        }
         @foreach (var rvm in Model.UserReservations)
         {
-            <div class="well form-group form-group-lg col-lg-10 col-md-10 col-sm-10 col-xs-12">
+            <div class="well form-group">
                 <form asp-controller=@(Model.FormProcessing.FormController) asp-action=@(Model.FormProcessing.FormAction) method="post" role="form">
                     <div asp-valIdation-summary="All" class="text-danger"></div>
-                    <div class="col-lg-4 col-md-5 col-sm-5 col-xs-12">
-                        <a style="font-size:25px">R:@rvm.ConfirmationNumber</a>
-                    </div>
-                    <input type="hIdden" asp-for="ReservationId" value=@(rvm.ConfirmationNumber) />
-                    <div class="col-lg-6 col-md-5 col-sm-5 col-xs-12" style="float:right">                        
-                        <input type="button" class="btn btn-sm btn-default" id="showdetailsbtn" value="Show Details" />
+                    <div class="">
+                        <a style="font-size:25px;margin-right:40px;">R:@rvm.ConfirmationNumber</a>
+                        <input type="button" class="btn btn-sm btn-default dashboard-reservation-details" id=@rvm.ConfirmationNumber value="Show Details" />
                         <input type="submit" class="btn btn-sm btn-primary" id="updatereservationbtn" value="Update" />
                     </div>
+                    <input type="hIdden" asp-for="ReservationId" value=@(rvm.ConfirmationNumber) />
                 </form>
             </div>
             <div class="col-lg-10">
-                <table style="display:none;" class="table table-responsive dashboard-reservations-list" id="review-form">
+                <table style="display:none;" class="table table-responsive dashboard-reservations-list review-form" id=@rvm.ConfirmationNumber>
                     <thead>
                         <tr class="review-header">
                             <td colspan="2"><img src="~/images/@(rvm.VehicleSetup.Vehicle.ImageName)" id="rentalVehicle" height="120" width="200" style="display:block; margin:0 auto;" /></td>
@@ -121,5 +124,16 @@
             </div>
         }
 
+    </div>
+    <div class="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 dashboard-segment dashboard-sidebar" style="">
+        <h5>Personal</h5><hr />
+        <p><a>Account Settings</a></p>
+        <p><a>Profile</a></p>
+        <br />
+        <h5>General</h5><hr />
+        <p><a>Save On Car Reservations</a></p>
+        <p><a>Federal and State Tax Information</a></p>
+        <p><a>Terms and Conditions</a></p>
+        <p><a>FAQs</a></p>
     </div>
 </div>

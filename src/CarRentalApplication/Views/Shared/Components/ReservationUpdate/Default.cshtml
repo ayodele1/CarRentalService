@@ -5,20 +5,12 @@
 @{
 
 }
-
-
-<div class="col-md-10 col-md-offset-1">
-    <table class="table table-responsive" id="review-form">
-        <thead>
-            <tr class="review-header">
-                <td colspan="2"><img src="~/images/@(Model.VehicleSetup.Vehicle.ImageName)" id="rentalVehicle" height="120" width="200" style="display:block; margin:0 auto;" /></td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="review-segment-header">
-                <th><u>VEHICLE</u></th>
-                <th><a asp-controller="Reservation" asp-action="VehicleUpdate"><span class="glyphicon glyphicon-edit reservation-edit"></span></a></th>
-            </tr>
+<div class="col-md-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <b>VEHICLE</b> &nbsp; <a asp-controller="Reservation" asp-action="VehicleUpdate"><span class="glyphicon glyphicon-edit reservation-edit"></span></a>
+        </div>
+        <table class="table table-responsive">
             <tr class="review-segment-content vehicle-segment">
                 <td class="review-segment-title">Name</td>
                 <td>@Model.VehicleSetup.Vehicle.Name</td>
@@ -28,25 +20,43 @@
                 <td>@Model.VehicleSetup.Vehicle.MakeYear</td>
             </tr>
             <tr class="review-segment-content vehicle-segment">
-                <td class="review-segment-title">Passenger Capacity</td>
+                <td class="review-segment-title"> Capacity</td>
                 <td>@Model.VehicleSetup.Vehicle.PassengerCapacity</td>
             </tr>
-            <tr class="review-segment-header">
-                <th>LOGISTICS</th>
-                <th><a asp-controller="Reservation" asp-action="LogisticsUpdate"><span class="glyphicon glyphicon-edit reservation-edit"></span></a></th>
+            <tr class="review-segment-content logistics-segment">
+                <td class="review-segment-title">Return Date</td>
+                <td>@Model.LogisticsSetup.ReturnDate.ToString("yyyy-MM-dd")</td>
+            </tr>
+        </table>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <b>LOGISTICS</b> &nbsp; <a asp-controller="Reservation" asp-action="LogisticsUpdate"><span class="glyphicon glyphicon-edit reservation-edit"></span></a>
+        </div>
+        <table class="table table-responsive">
+            <tr class="review-segment-content logistics-segment">
+                <td class="review-segment-title">Pickup Location</td>
+                <td>@Model.LogisticsSetup.PickupLocation</td>
             </tr>
             <tr class="review-segment-content logistics-segment">
-                <td class="review-segment-title">Pickup Location and Date</td>
-                <td>@Model.LogisticsSetup.PickupLocation ON @Model.LogisticsSetup.PickupDate.ToString("yyyy-MM-dd")</td>
+                <td class="review-segment-title">Pickup Date</td>
+                <td>@Model.LogisticsSetup.PickupDate.ToString("yyyy-MM-dd")</td>
             </tr>
             <tr class="review-segment-content logistics-segment">
-                <td class="review-segment-title">Return Location and Date</td>
-                <td>@Model.LogisticsSetup.ReturnLocation ON @Model.LogisticsSetup.ReturnDate.ToString("yyyy-MM-dd")</td>
+                <td class="review-segment-title">Return Location</td>
+                <td>@Model.LogisticsSetup.ReturnLocation</td>
             </tr>
-            <tr class="review-segment-header">
-                <th>CONTACT</th>
-                <th><a asp-controller="Reservation" asp-action="ContactUpdate"><span class="glyphicon glyphicon-edit reservation-edit"></span></a></th>
+            <tr class="review-segment-content logistics-segment">
+                <td class="review-segment-title">Return Date</td>
+                <td>@Model.LogisticsSetup.ReturnDate.ToString("yyyy-MM-dd")</td>
             </tr>
+        </table>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <b>CONTACT</b> &nbsp; <a asp-controller="Reservation" asp-action="ContactUpdate"><span class="glyphicon glyphicon-edit reservation-edit"></span></a>
+        </div>
+        <table class="table table-responsive">
             <tr class="review-segment-content contact-segment">
                 <td class="review-segment-title">Full Name </td>
                 <td>@Model.ContactSetup.FirstName @Model.ContactSetup.LastName</td>
@@ -59,29 +69,48 @@
                 <td class="review-segment-title">Phone Number</td>
                 <td>@Model.ContactSetup.PhoneNumber</td>
             </tr>
-            <tr class="review-segment-header">
-                <th colspan="2">Total Cost</th>
-            </tr>
-            <tr class="review-segment-content">
-                <td class="review-segment-title">vehicle Cost (For @Model.TotalRentalDays Days)</td>
-                <td>$@Model.TotalVehicleCostMinusTax</td>
-            </tr>
-            <tr class="review-segment-content">
-                <td class="review-segment-title">Federal Tax</td>
-                <td>$@Model.FederalTax</td>
-            </tr>
-            <tr class="review-segment-content">
-                <td class="review-segment-title">State Tax</td>
-                <td>$@Model.StateTax</td>
-            </tr>
-            <tr class="review-segment-content">
-                <td class="review-segment-title">Total Cost</td>
-                <td>$@Model.TotalCost</td>
-            </tr>
-        </tbody>
-    </table>
+        </table>
+    </div>
 </div>
 
+<div class="col-md-3 col-md-offset-1 dashboard-segment">
+    <table class="table table-responsive">
+        <tr class="review-segment-header">
+            <td><b>VEHICLE COST</b></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>$@Model.TotalVehicleCostMinusTax</td>
+        </tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr class="review-segment-header">
+            <td><b>ADDITIONAL CHARGES</b></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>FEDERAL TAX</td>
+            <td>$@Model.FederalTax</td>
+        </tr>
+        <tr>
+            <td>STATE TAX</td>
+            <td>$@Model.StateTax</td>
+        </tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr class="review-segment-header">
+            <td><b>TOTAL COST</b></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>$@Model.TotalCost</td>
+        </tr>
+    </table>
+    <br />
+    <a asp-controller="Reservation" asp-action="Confirmation" class="btn btn-primary btn-lg">SUBMIT RESERVATION</a>
+</div>
 <script>
     @if (Model.VehicleSetup.IsDirty)
     {
@@ -95,19 +124,19 @@
     @if (Model.LogisticsSetup.IsDirty)
     {
         <text>
-            var x = document.getElementsByClassName('logistics-segment');
-            for (i = 0; i < x.length; i++) {
-                x[i].className += ' updated-reservation-segment';
-            }
-        </text>
+    var x = document.getElementsByClassName('logistics-segment');
+    for (i = 0; i < x.length; i++) {
+        x[i].className += ' updated-reservation-segment';
+    }
+    </text>
     }
     @if (Model.ContactSetup.IsDirty)
     {
         <text>
-            var x = document.getElementsByClassName('contact-segment');
-        for (i = 0; i < x.length; i++) {
-            x[i].className += ' updated-reservation-segment';
-        }
-        </text>
+    var x = document.getElementsByClassName('contact-segment');
+    for (i = 0; i < x.length; i++) {
+        x[i].className += ' updated-reservation-segment';
+    }
+    </text>
     }
 </script>

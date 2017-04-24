@@ -54,20 +54,19 @@
     background-color:#edeeef;
 
 }
-#review-form{
+review-form{
     border: 1px solid #2c3e50;
 }
 .review-segment-header{
-    font-size: 21px;
-    border-top: 1px solid #2c3e50;
+    border-bottom: 4px solid darkslategrey;
 }
 .review-segment-content{
     font-size: 17px;
     color:darkgoldenrod;
+    border-bottom:1px solid #f9f9f9;
 }
 .review-segment-title{
     color:darkslategrey;
-    font-family:'Lucida Sans Typewriter';
 }
 .reservation-cancel-btn{
     background-color:white;
@@ -78,7 +77,7 @@
     color:green;
 }
 .reservation-edit{
-    color:#2c3e50;
+    color:#8e2d2d;
 }
 .updated-reservation-segment{
     color: #acc6ef;
@@ -88,9 +87,41 @@
     font-size: 17px;
     color:darkblue;
 }
-table{
-    
+.wrapper{
+    min-height: calc(100vh - 120px);
 }
+.dashboard-segment{    
+    padding:13px;        
+    box-shadow: 0 0 7px 1.8px #999;
+    margin-bottom: 50px;
+}
+
+.panel{
+    border:1px solid #cecece;
+}
+
+.dashboard-sidebar{
+    background-color:#f7f7f7;
+    border-radius: 8px;
+}
+.dashboard-sidebar a{
+    text-decoration:underline;
+    font-size:12px;
+}
+.dashboard-tool-segment {
+    background-color:white;
+}
+.dashboard-tool-segment a:hover .glyphicon{
+    -webkit-transform:scale(1.50); /* Safari and Chrome */
+    -moz-transform:scale(1.50); /* Firefox */
+    -ms-transform:scale(1.50); /* IE 9 */
+    -o-transform:scale(1.50); /* Opera */
+     transform:scale(1.50);
+}
+.tooltip-inner {
+    background-color: black;
+}
+/**#18bc9c*/
 
 
 
@@ -121,6 +152,7 @@ hr {
 
 table {
     width: 100%;
+    font-family:'Open Sans', sans-serif;
 }
 
 #rentalVehicle {

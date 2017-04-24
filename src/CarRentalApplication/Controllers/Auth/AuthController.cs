@@ -28,7 +28,7 @@ namespace CarRentalApplication.Controllers.Auth
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Home", "Dashboard");
+                return RedirectToAction("Index", "Dashboard");
             }
             return View(new LoginViewModel());
         }
@@ -78,7 +78,7 @@ namespace CarRentalApplication.Controllers.Auth
                         {
                             await _userManager.AddToRoleAsync(newUser, "customer");
                             await _signInManager.SignInAsync(newUser, false);
-                            return RedirectToAction("Home", "Dashboard");
+                            return RedirectToAction("Index", "Dashboard");
                         }
                     }
                     catch (Exception)

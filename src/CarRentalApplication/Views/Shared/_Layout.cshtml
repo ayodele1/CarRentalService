@@ -13,7 +13,9 @@
         <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/datepicker.css" />
         <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/all.css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         <link rel="stylesheet" href="~/css/Custom.css" />
+
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
@@ -23,7 +25,9 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/datepicker.css" />
         <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/all.css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         <link rel="stylesheet" href="~/css/Custom.css" />
+
 
     </environment>
 </head>
@@ -82,14 +86,17 @@
     </div>
     <div class="container body-content">
         <br /><br />
-        @RenderBody()
+        <div class="wrapper">
+            @RenderBody()
+        </div>
+        
         <hr />
-        <footer>
+        <footer class="footer">
             <p>&copy; 2016 - CarRentalApplication</p>
         </footer>
     </div>
 
-    <environment names="Development">
+    <environment names="Developlment">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
@@ -121,4 +128,5 @@
 
     @RenderSection("scripts", required: false)
 </body>
+
 </html>

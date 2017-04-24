@@ -17,7 +17,7 @@
                 <a class="btn btn-sm btn-primary" (click)="toggleUpdate()">Update</a>&nbsp;&nbsp;
                 <a style="color:red" class="btn btn-sm btn-dafault">Cancel</a>&nbsp;&nbsp;
             </div>
-            <table class="table table-responsive" id="review-form" *ngIf='showDetails'>
+            <table class="table table-responsive review-form" id="" *ngIf='showDetails'>
                 <thead>
                     <tr class="review-header">
                         <td colspan="2"><img src="/images/{{reservation.vehicle.imageName}}" id="rentalVehicle" height="120" width="200" style="display:block; margin:0 auto;" /></td>
@@ -64,7 +64,7 @@
                     </tr>
                 </tbody>
             </table>            
-                <table class="table table-responsive" id="review-form" *ngIf='showUpdateForm'>
+                <table class="table table-responsive review-form" id="" *ngIf='showUpdateForm'>
                     <thead>
                         <tr class="review-header">
                             <td colspan="2"><img src="~/images/{{reservation.vehicle.imageName}}" id="rentalVehicle" height="120" width="200" style="display:block; margin:0 auto;" /></td>

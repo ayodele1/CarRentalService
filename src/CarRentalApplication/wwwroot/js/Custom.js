@@ -1,4 +1,5 @@
 ﻿$(function () {
+    $('[data-toggle="tooltip"]').tooltip();
     var dateToday = new Date();
     $(".pickupdate").datepicker({ dateFormat: "yy-mm-dd", minDate: dateToday }).datepicker("setDate", "0");
 
@@ -34,13 +35,16 @@
 
     });
     
-    $('#showdetailsbtn').click(function () {
-        $('.dashboard-reservations-list').slideToggle();
-        console.log($("#showdetailsbtn").text());
-        if ($("#showdetailsbtn").text() === "Show Details") {
-            $("#showdetailsbtn").text("Hide Details");
+    $('.dashboard-reservation-details').click(function () {
+        var id = $(this).attr('id');
+        console.log(id);
+        console.log($('.dashboard-reservations-list').attr('id'));
+        $('#' + id + '.dashboard-reservations-list').slideToggle();
+        
+        if ($(this).attr('value') === 'Show Details') {
+            $(this).attr('value', 'Hide Details');
         } else {
-            $("#showdetailsbtn").text("Show Details");
+            $(this).attr('value', 'Show Details');
         }
 
     });

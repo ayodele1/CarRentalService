@@ -11,16 +11,16 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group form-group-lg">
             <label class="col-lg-2 control-label">Email</label>
-            <div class="col-lg-6">
-                <input type="email" class="form-control input-lg" placeholder="Enter Email" asp-for="Email" />
+            <div class="col-lg-7">
+                <input type="email" class="form-control input-lg" tabindex="1" placeholder="Enter Email" asp-for="Email" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
         </div>
 
         <div class="form-group form-group-lg">
             <label class="col-lg-2 control-label">Password</label>
-            <div class="col-lg-6">
-                <input type="password" class="form-control" asp-for="Password" placeholder="Enter Password" />
+            <div class="col-lg-7">
+                <input type="password" class="form-control" asp-for="Password" tabindex="2" placeholder="Enter Password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
         </div>
