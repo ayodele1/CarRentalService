@@ -25,7 +25,7 @@ namespace CarRentalApplication.Repositories
             return _context.Reservations.ToList();
         }
 
-        public Reservation GetReservationByConfirmationNumber(long confirmationNumber, bool includeVehicleDetails = false, bool includeContactDetails = false)
+        public Reservation GetReservationByConfirmationNumber(long confirmationNumber, bool includeVehicleDetails = false, bool includeContactDetails = false, bool includeUserDetails = false)
         {
             var reservationToGet = _context.Reservations.Where(x => x.ConfirmationNumber == confirmationNumber);
             if (includeVehicleDetails)
@@ -35,6 +35,10 @@ namespace CarRentalApplication.Repositories
             if (includeContactDetails)
             {
                 reservationToGet = reservationToGet.Include(rc => rc.ReservationContact);
+            }
+            if (includeUserDetails)
+            {
+                reservationToGet = reservationToGet.Include(rc => rc.AppUser);
             }
             return reservationToGet.FirstOrDefault();
         }
@@ -105,11 +109,16 @@ namespace CarRentalApplication.Repositories
             return _context.Reservations.Where(x => x.ReservationContactId == reservationContactId && x.ConfirmationNumber == confirmationNumber).FirstOrDefault();
         }
 
-        public bool DeleteReservation(Reservation reservationToDelete)
+        public bool DeleteReservation(long confirmationNumber)
         {
-            _context.Entry(reservationToDelete).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;           
-            var isdeleted = _context.SaveChanges();
-            return true;
+            var reservationToDelete = GetReservationByConfirmationNumber(confirmationNumber);
+            if (reservationToDelete != null)
+            {
+                _context.Entry(reservationToDelete).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+                var isdeleted = _context.SaveChanges();
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -91,7 +91,7 @@ namespace CarRentalApplication.Api.Controllers
 
             try
             {
-                if (!_reservationRepo.DeleteReservation(reservationToCancel))
+                if (!_reservationRepo.DeleteReservation(confirmationNumber))
                     return BadRequest("Error occured while deleting");
 
                 return Ok($"Reservation {confirmationNumber} has been Cancelled");

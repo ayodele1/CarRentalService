@@ -45,8 +45,8 @@ namespace CarRentalApplication.Controllers.Dashboard
         [HttpPost]
         public IActionResult Index(ReservationsListViewModel rlvm)
         {
-            var reservationToUpdate = _reservationRepository.GetReservationByConfirmationNumber(rlvm.ReservationId,true,true);
-            var currModel = Mapper.Map<ReservationViewModel>(reservationToUpdate);
+            var reservationToUpdate = _reservationRepository.GetReservationByConfirmationNumber(rlvm.ReservationId,true,true,true);
+            var currModel = Mapper.Map<ReservationViewModel>(reservationToUpdate);            
             _sessionService.SaveToSession(HttpContext, currModel, ReservationViewModel.SessionKey);
             return RedirectToAction("Update", "Reservation");
         }

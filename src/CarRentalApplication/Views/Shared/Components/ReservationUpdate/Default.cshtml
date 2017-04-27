@@ -72,7 +72,7 @@
 <div class="col-md-3 col-md-offset-1 dashboard-segment">
     <table class="table table-responsive">
         <tr class="review-segment-header">
-            <td><b>VEHICLE COST</b></td>
+            <td><b>VEHICLE COST (For @Model.TotalRentalDays Rental Days)</b></td>
             <td></td>
         </tr>
         <tr>
@@ -101,7 +101,7 @@
         </tr>
         <tr>
             <td></td>
-            <td class="currency">-$@Model.Discount</td>
+            <td class="currency" style="color:red;">-$@Model.Discount</td>
         </tr>
         <tr><td></td></tr>
         <tr><td></td></tr>
@@ -118,7 +118,7 @@
     @if (Model.FormProcessing.FormAction.Equals("UpdateConfirmation"))
     {
         <p><button type="button" class="btn btn-lg btn-success reservation-update-btn" onclick="location.href='@Url.Action("UpdateConfirmation","Reservation")'" disabled="@(Model.IsChanged ? null:"disable")">UPDATE RESERVATION</button></p>
-        <p><a class="btn btn-lg btn-danger reservation-cancel-btn" data-toggle="modal" data-target="#yesnoModal">CANCEL RESERVATION</a></p>
+        <p><a class="btn btn-lg btn-danger reservation-cancel-btn" data-toggle="modal" data-target="#yesnoModal" >CANCEL RESERVATION</a></p>
     }
     else
     {

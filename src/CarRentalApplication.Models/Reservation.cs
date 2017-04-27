@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -28,6 +29,19 @@ namespace CarRentalApplication.Models
         public Guid VehicleId { get; set; }
 
         public Vehicle Vehicle { get; set; }
+
+        //This is the calculated  cost including the total rental days.
+        public double TotalVehicleCost { get; set; }
+
+        [JsonIgnore]
+        public int isActive { get; set; }
+
+        [NotMapped]
+        public bool IsActive
+        {
+            get { return isActive != 0; }
+            set { isActive = value ? 1 : 0; }
+        }
 
         public double TotalCost { get; set; }        
 

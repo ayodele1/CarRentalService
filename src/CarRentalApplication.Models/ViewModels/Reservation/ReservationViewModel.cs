@@ -145,7 +145,7 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
 
         public FormSubmissionViewModel FormProcessing { get; set; }
 
-        public AppUser ApplicationUser { get; set; }
+        public AppUser AppUser { get; set; }
 
         public ReservationContact ReservationContact { get; set; }
     }

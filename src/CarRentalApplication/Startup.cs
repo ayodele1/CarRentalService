@@ -195,6 +195,7 @@ namespace CarRentalApplication
             //});
             app.UseStaticFiles();
             app.UseIdentity();
+            app.UseStatusCodePages();
             app.UseJwtBearerAuthentication(new JwtBearerOptions()
             {
                 AutomaticAuthenticate = true,
