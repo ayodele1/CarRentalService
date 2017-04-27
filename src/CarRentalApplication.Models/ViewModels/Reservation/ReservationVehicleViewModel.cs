@@ -24,12 +24,16 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
             set { _isDirty = value; }
         }
 
-        public void CheckIfModelIsDirty(ReservationVehicleViewModel currVehicleSetup)
+        public void SetIsDirtyProperty(ReservationVehicleViewModel origVehicleSetup)
         {
-            if(currVehicleSetup.VehicleId != this.VehicleId ||
-                currVehicleSetup.Vehicle.Id != this.Vehicle.Id)
+            if(origVehicleSetup.VehicleId != this.VehicleId ||
+                origVehicleSetup.Vehicle.Id != this.Vehicle.Id)
             {
                 _isDirty = true;
+            }
+            else
+            {
+                _isDirty = false;
             }
         }
     }

@@ -34,7 +34,7 @@
 
         <h4>Reservations</h4>
         <hr />
-        @if(Model.UserReservations.Count() == 0)
+        @if (Model.UserReservations.Count() == 0)
         {
             <p>Welcome! You have no reservations.<a asp-action="Index" asp-controller="Home"> <u><i>Start a new Reservation</i></u></a></p>
         }
@@ -44,83 +44,15 @@
                 <form asp-controller=@(Model.FormProcessing.FormController) asp-action=@(Model.FormProcessing.FormAction) method="post" role="form">
                     <div asp-valIdation-summary="All" class="text-danger"></div>
                     <div class="">
-                        <a style="font-size:25px;margin-right:40px;">R:@rvm.ConfirmationNumber</a>
+                        <a style="font-size:25px;margin-right:40px;">@rvm.ConfirmationNumber</a>
                         <input type="button" class="btn btn-sm btn-default dashboard-reservation-details" id=@rvm.ConfirmationNumber value="Show Details" />
                         <input type="submit" class="btn btn-sm btn-primary" id="updatereservationbtn" value="Update" />
                     </div>
                     <input type="hIdden" asp-for="ReservationId" value=@(rvm.ConfirmationNumber) />
                 </form>
             </div>
-            <div class="col-lg-10">
-                <table style="display:none;" class="table table-responsive dashboard-reservations-list review-form" id=@rvm.ConfirmationNumber>
-                    <thead>
-                        <tr class="review-header">
-                            <td colspan="2"><img src="~/images/@(rvm.VehicleSetup.Vehicle.ImageName)" id="rentalVehicle" height="120" width="200" style="display:block; margin:0 auto;" /></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="review-segment-header">
-                            <th colspan="2"><u>VEHICLE</u></th>
-                        </tr>
-                        <tr class="review-segment-content">
-                            <td>NAME</td>
-                            <td>@rvm.VehicleSetup.Vehicle.Name</td>
-                        </tr>
-                        <tr class="review-segment-content">
-                            <td>MAKE YEAR</td>
-                            <td>@rvm.VehicleSetup.Vehicle.MakeYear</td>
-                        </tr>
-                        <tr class="review-segment-content">
-                            <td>PASSENGER CAPACITY</td>
-                            <td>@rvm.VehicleSetup.Vehicle.PassengerCapacity</td>
-                        </tr>
-                        <tr class="review-segment-header">
-                            <th colspan="2">LOGISTICS</th>
-                        </tr>
-                        <tr class="review-segment-content">
-                            <td>PICKUP LOCATION AND DATE</td>
-                            <td>@rvm.LogisticsSetup.PickupLocation ON @rvm.LogisticsSetup.PickupDate.ToString("yyyy-MM-dd")</td>
-                        </tr>
-                        <tr class="review-segment-content">
-                            <td>RETURN LOCATION AND DATE</td>
-                            <td>@rvm.LogisticsSetup.ReturnDate ON @rvm.LogisticsSetup.ReturnDate.ToString("yyyy-MM-dd")</td>
-                        </tr>
-                        <tr class="review-segment-header">
-                            <th colspan="2">CONTACT</th>
-                        </tr>
-                        <tr class="review-segment-content">
-                            <td>FULL NAME</td>
-                            <td>@rvm.ContactSetup.FirstName @rvm.ContactSetup.LastName</td>
-                        </tr>
-                        <tr class="review-segment-content">
-                            <td>EMAIL ADDRESS</td>
-                            <td>@rvm.ContactSetup.Email</td>
-                        </tr>
-                        <tr class="review-segment-content">
-                            <td>PHONE NUMBER</td>
-                            <td>@rvm.ContactSetup.PhoneNumber</td>
-                        </tr>
-                        <tr class="review-segment-header">
-                            <th colspan="2">TOTAL COST</th>
-                        </tr>
-                        <tr class="review-segment-content">
-                            <td>VEHICLE COST (For @rvm.TotalRentalDays Days)</td>
-                            <td>$@rvm.TotalVehicleCostMinusTax</td>
-                        </tr>
-                        <tr class="review-segment-content">
-                            <td>FEDERAL TAX</td>
-                            <td>$@rvm.FederalTax</td>
-                        </tr>
-                        <tr class="review-segment-content">
-                            <td>STATE TAX</td>
-                            <td>$@rvm.StateTax</td>
-                        </tr>
-                        <tr class="review-segment-content">
-                            <td>TOTAL COST</td>
-                            <td>$@rvm.TotalCost</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="dashboard-reservations-list" id=@rvm.ConfirmationNumber style="display:none;">
+                @await Component.InvokeAsync("ReservationReview", new { rvm = rvm })
             </div>
         }
 

@@ -23,10 +23,6 @@
                 <td class="review-segment-title"> Capacity</td>
                 <td>@Model.VehicleSetup.Vehicle.PassengerCapacity</td>
             </tr>
-            <tr class="review-segment-content logistics-segment">
-                <td class="review-segment-title">Return Date</td>
-                <td>@Model.LogisticsSetup.ReturnDate.ToString("yyyy-MM-dd")</td>
-            </tr>
         </table>
     </div>
     <div class="panel panel-default">
@@ -81,7 +77,7 @@
         </tr>
         <tr>
             <td></td>
-            <td>$@Model.TotalVehicleCostMinusTax</td>
+            <td class="currency">+$@Model.TotalVehicleCost</td>
         </tr>
         <tr><td></td></tr>
         <tr><td></td></tr>
@@ -91,11 +87,21 @@
         </tr>
         <tr>
             <td>FEDERAL TAX</td>
-            <td>$@Model.FederalTax</td>
+            <td class="currency">+$@Model.FederalTax</td>
         </tr>
         <tr>
             <td>STATE TAX</td>
-            <td>$@Model.StateTax</td>
+            <td class="currency">+$@Model.StateTax</td>
+        </tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr class="review-segment-header">
+            <td><b>DISCOUNTS</b></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="currency">-$@Model.Discount</td>
         </tr>
         <tr><td></td></tr>
         <tr><td></td></tr>
@@ -105,11 +111,19 @@
         </tr>
         <tr>
             <td></td>
-            <td>$@Model.TotalCost</td>
+            <td class="currency">$@Model.TotalCost</td>
         </tr>
     </table>
     <br />
-    <a asp-controller="Reservation" asp-action="Confirmation" class="btn btn-primary btn-lg">SUBMIT RESERVATION</a>
+    @if (Model.FormProcessing.FormAction.Equals("UpdateConfirmation"))
+    {
+        <p><button type="button" class="btn btn-lg btn-success reservation-update-btn" onclick="location.href='@Url.Action("UpdateConfirmation","Reservation")'" disabled="@(Model.IsChanged ? null:"disable")">UPDATE RESERVATION</button></p>
+        <p><a class="btn btn-lg btn-danger reservation-cancel-btn" data-toggle="modal" data-target="#yesnoModal">CANCEL RESERVATION</a></p>
+    }
+    else
+    {
+        <a asp-controller="Reservation" asp-action="Confirmation" class="btn btn-primary btn-lg">SUBMIT RESERVATION</a>
+    }
 </div>
 <script>
     @if (Model.VehicleSetup.IsDirty)

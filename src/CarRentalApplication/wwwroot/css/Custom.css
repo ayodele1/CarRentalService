@@ -12,6 +12,11 @@
     font-size: 18px;
     color: #0e6808;
 }
+.currency{
+    font-family: 'Rokkitt', serif;
+    font-size:22px;
+    color:darkgreen;
+}
 
 .reservation-angular {
     border-radius: 4px;
@@ -62,8 +67,8 @@ review-form{
 }
 .review-segment-content{
     font-size: 17px;
-    color:darkgoldenrod;
-    border-bottom:1px solid #f9f9f9;
+    color:#875f5f;
+    border-bottom:1px solid #e5e5e5;
 }
 .review-segment-title{
     color:darkslategrey;
@@ -85,7 +90,7 @@ review-form{
 .reservation-confirmation-text{
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 17px;
-    color:darkblue;
+    color:#424242;
 }
 .wrapper{
     min-height: calc(100vh - 120px);

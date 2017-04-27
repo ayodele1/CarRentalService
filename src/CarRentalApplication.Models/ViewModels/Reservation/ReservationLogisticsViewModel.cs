@@ -91,7 +91,7 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
 
         public FormSubmissionViewModel FormProcessing { get; set; }
 
-        public void CheckIfModelIsDirty(ReservationLogisticsViewModel valueToSet)
+        public void SetIsDirtyProperty(ReservationLogisticsViewModel valueToSet)
         {
             if(string.Compare(valueToSet.UserLocation, _userLocation) != 0 ||
                string.Compare(valueToSet.PickupLocation, _pickupLocation) != 0 ||

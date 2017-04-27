@@ -6,13 +6,19 @@
 }
 
 <div class="row">
-    <div class="col-md-5">
-        <h6 class="reservation-confirmation-text">Reservation R:@Model.ConfirmationNumber Has been Cancelled. An email has been sent to @Model.ContactSetup.Email </h6>
+    <div class="col-md-9 col-md-offset-1">
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                <div class="alert alert-warning">Reservation @Model.ConfirmationNumber Has been Cancelled</div>
+                <h6 class="reservation-confirmation-text">. An email has been sent to @Model.ContactSetup.Email</h6>
+            </div>
+            <div class="panel-footer">
+                <a asp-action="Index" asp-controller="Home"> <u><i>Start a new Reservation</i></u></a>|
+                <a asp-action="Index" asp-controller="Home"> <u><i>Back To Home</i></u></a>
+            </div>
+        </div>
     </div>
-    <div class="col-md-3">
-        <input type="button" class="btn btn-sm" value="START ANOTHER RESERVATION" />
-    </div>
-    <div class="col-md-3">
-        <input type="button" class="btn btn-sm" value="BACK TO HOME" />
-    </div>
+    @*@await Component.InvokeAsync("ReservationReview", new { rvm = Model })*@
+
 </div>

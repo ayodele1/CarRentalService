@@ -81,10 +81,15 @@ namespace CarRentalApplication.Controllers.VehicleReservation
             return View(rvvm);
         }
 
-        public IActionResult ContactSetup()
+        public async Task<IActionResult> ContactSetup()
         {
             var currContactSetup = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey).ContactSetup
                             ?? new ReservationContactViewModel();
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await _userManager.FindByIdAsync(_userManager.GetUserId(HttpContext.User));
+                Mapper.Map<AppUser, ReservationContactViewModel>(user,currContactSetup);
+            } 
             return View(currContactSetup);
         }
 
@@ -118,6 +123,8 @@ namespace CarRentalApplication.Controllers.VehicleReservation
         public IActionResult Review()
         {
             var currModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);
+            currModel.CalculateTotalVehicleCost(currModel.VehicleSetup.Vehicle, currModel.TotalRentalDays);
+            currModel.CalculateTotalCost(currModel.VehicleSetup.Vehicle, currModel.TotalRentalDays);
             return View(currModel);
         }
 
@@ -142,7 +149,6 @@ namespace CarRentalApplication.Controllers.VehicleReservation
             return View(currModel);
         }
 
-        [Authorize]
         public IActionResult Update()
         {
             var currModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);
@@ -219,7 +225,6 @@ namespace CarRentalApplication.Controllers.VehicleReservation
             return View(rcvm);
         }
 
-        [Authorize]
         public IActionResult UpdateConfirmation()
         {
             var currReservationViewModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);
@@ -228,12 +233,15 @@ namespace CarRentalApplication.Controllers.VehicleReservation
             return View(currReservationViewModel);
         }
 
-        [Authorize]
         public IActionResult CancelReservation()
         {
             var currReservationViewModel = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey);
-            var reservationToCancel = Mapper.Map<Reservation>(currReservationViewModel);
-            _reservationRepo.DeleteReservation(reservationToCancel);
+            if(_reservationRepo.GetReservationByConfirmationNumber(currReservationViewModel.ConfirmationNumber) != null)
+            {
+                var reservationToCancel = Mapper.Map<Reservation>(currReservationViewModel);
+                _reservationRepo.DeleteReservation(reservationToCancel);
+            }
+
             return View(currReservationViewModel);
         }
 

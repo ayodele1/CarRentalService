@@ -28,11 +28,11 @@ namespace CarRentalApplication.Controllers.Dashboard
             _userManager = userMgr;
             _sessionService = vmss;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var reservationViewModelList = new List<ReservationViewModel>();
-            var signedInUserId = _userManager.GetUserId(HttpContext.User);
-            var userReservations = _reservationRepository.GetReservationsForUser(signedInUserId,true,true);
+            var signedInUser = await _userManager.FindByIdAsync(_userManager.GetUserId(HttpContext.User));
+            var userReservations = _reservationRepository.GetReservationsForUser(signedInUser,true,true);
             foreach (var reservation in userReservations)
             {
                 var reservationViewModel = Mapper.Map<ReservationViewModel>(reservation);

@@ -121,6 +121,7 @@ namespace CarRentalApplication
                 config.CreateMap<ApiContactViewModel, ReservationContact>();
                 config.CreateMap<ApiVehicleViewModel, Vehicle>();
                 config.CreateMap<Reservation, Reservation>();
+                config.CreateMap<AppUser, ReservationContactViewModel>();
                 config.CreateMap<ReservationViewModel, Reservation>()
                 .ForMember(dest => dest.PickupLocation, opt => opt.MapFrom(src => src.LogisticsSetup.PickupLocation))
                 .ForMember(dest => dest.ReturnLocation, opt => opt.MapFrom(src => src.LogisticsSetup.ReturnLocation))

@@ -9,15 +9,11 @@
         FormController = "Reservation",
         FormAction = "CancelReservation"
     };
+    Model.FormProcessing = new FormSubmissionViewModel { FormAction = "UpdateConfirmation", FormController = "Reservation" };
 }
 
 <div class="row">
-    <h3 class="pageHeading">Update / Cancel Reservation R:@Model.ConfirmationNumber</h3>
+    <h3 class="pageHeading">Update Reservation @Model.ConfirmationNumber</h3>
     @await Component.InvokeAsync("YesNoModal", new { fsvm = reservationCancellationFormSubmission });
     @await Component.InvokeAsync("ReservationUpdate", new { rvm = Model })
-    <div class="col-md-10 pull-right">
-        <a class="btn btn-lg btn-primary" asp-controller="Home" asp-action="Index">BACK TO HOMEPAGE</a>        
-        <a class="btn btn-lg btn-danger reservation-cancel-btn" data-toggle="modal" data-target="#yesnoModal">CANCEL RESERVATION</a>
-        <a class="btn btn-lg btn-success reservation-update-btn" asp-controller="Reservation" asp-action="UpdateConfirmation">SAVE AND UPDATE RESERVATION</a>                
-    </div>
 </div>

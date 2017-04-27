@@ -10,7 +10,12 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
         public static string SessionKey = "rvm";
         private ReservationContactViewModel _contactSetup;
         private ReservationVehicleViewModel _vehicleSetup;
+        private ReservationVehicleViewModel _origVehicleSetup;
+        private ReservationLogisticsViewModel _origLogisticsSetup;
+        private ReservationContactViewModel _origContactSetup;
         private ReservationLogisticsViewModel _logisticsSetup;
+        private double _totalCost;
+        private double _totalVehicleCost;
         public ReservationLogisticsViewModel LogisticsSetup
         {
             get { return _logisticsSetup; }
@@ -18,7 +23,8 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
             {
                 if (_logisticsSetup != null)
                 {
-                    value.CheckIfModelIsDirty(_logisticsSetup);                    
+                    if (OrigLogisticsSetup == null) OrigLogisticsSetup = _logisticsSetup;
+                    value.SetIsDirtyProperty(_logisticsSetup);                    
                 }
                 _logisticsSetup = value;
             }
@@ -30,10 +36,27 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
             {
                 if (_vehicleSetup != null)
                 {
-                    value.CheckIfModelIsDirty(_vehicleSetup);
+                    if (OrigVehicleSetup == null) OrigVehicleSetup = _vehicleSetup;
+                    value.SetIsDirtyProperty(_origVehicleSetup);
                 }
                 _vehicleSetup = value;
             }
+        }
+
+        public ReservationLogisticsViewModel OrigLogisticsSetup
+        {
+            get { return _origLogisticsSetup; }
+            set { _origLogisticsSetup = value; }
+        }
+        public ReservationContactViewModel OrigContactSetup
+        {
+            get { return _origContactSetup; }
+            set { _origContactSetup = value; }
+        }
+        public ReservationVehicleViewModel OrigVehicleSetup
+        {
+            get { return _origVehicleSetup; }
+            set { _origVehicleSetup = value; }
         }
 
         public ReservationContactViewModel ContactSetup
@@ -43,9 +66,25 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
             {
                 if (_contactSetup != null)
                 {
-                    value.CheckIfModelIsDirty(_contactSetup);
+                    if (OrigContactSetup == null) OrigContactSetup = _contactSetup;
+                    value.SetIsDirtyProperty(_contactSetup);
                 }
                 _contactSetup = value;
+            }
+        }
+
+        public bool IsChanged
+        {
+            get
+            {
+                if(VehicleSetup != null && LogisticsSetup != null && ContactSetup != null)
+                {
+                    if (VehicleSetup.IsDirty || LogisticsSetup.IsDirty || ContactSetup.IsDirty)
+                    {
+                        return true;
+                    }
+                }
+                return false;
             }
         }
 
@@ -53,31 +92,44 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
 
         public int TotalRentalDays
         {
-            get { return Convert.ToInt32((this.LogisticsSetup.ReturnDate - this.LogisticsSetup.PickupDate).TotalDays); }
-        }
-
-        public double TotalVehicleCostMinusTax
-        {
             get
             {
-                if (VehicleSetup != null)
+                if(LogisticsSetup != null)
                 {
-                    if (VehicleSetup.Vehicle != null)
-                    {
-                        if (this.TotalRentalDays > 0)
-                        {
-                            return (this.VehicleSetup.Vehicle.PricePerDay * TotalRentalDays);
-                        }
-                        return this.VehicleSetup.Vehicle.PricePerDay;
-                    }
+                    return Convert.ToInt32((this.LogisticsSetup.ReturnDate - this.LogisticsSetup.PickupDate).TotalDays);
                 }
-                return double.MinValue;
+                return 0;         
             }
+        }
 
+        public double TotalVehicleCost
+        {
+            get { return _totalVehicleCost; }
+            set { _totalVehicleCost = value; }
+        }
+
+        public void CalculateTotalVehicleCost(Vehicle v, int totalRentalDays)
+        {
+            _totalVehicleCost = double.MinValue;
+            if (v != null)
+            {
+                _totalVehicleCost = (totalRentalDays > 0) ? v.PricePerDay * totalRentalDays : v.PricePerDay;
+            }
+            
+        }
+
+        public void CalculateTotalCost(Vehicle v, int totalRentalDays)
+        {
+            _totalCost = TotalVehicleCost + FederalTax + StateTax;
         }
         public double StateTax
         {
             get { return 24.49; }
+        }
+
+        public double Discount
+        {
+            get { return 0.00; }
         }
 
         public double FederalTax
@@ -87,7 +139,8 @@ namespace CarRentalApplication.Models.ViewModels.Reservation
 
         public double TotalCost
         {
-            get { return this.TotalVehicleCostMinusTax + FederalTax + StateTax; }
+            get { return _totalCost; }
+            set { _totalCost = value; }
         }
 
         public FormSubmissionViewModel FormProcessing { get; set; }

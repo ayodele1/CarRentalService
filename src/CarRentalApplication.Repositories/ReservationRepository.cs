@@ -39,9 +39,11 @@ namespace CarRentalApplication.Repositories
             return reservationToGet.FirstOrDefault();
         }
 
-        public IEnumerable<Reservation> GetReservationsForUser(string appUserId, bool includeVehicleDetails = false, bool includeContactDetails = false)
+        public IEnumerable<Reservation> GetReservationsForUser(AppUser appUser, bool includeVehicleDetails = false, bool includeContactDetails = false)
         {
-            var reservationsToGet = _context.Reservations.Where(x => x.AppUserId == appUserId);
+            var reservationsToGet = _context.Reservations.Where(x => (x.AppUserId == appUser.Id));
+
+
             if (includeVehicleDetails)
             {
                 reservationsToGet = reservationsToGet.Include(v => v.Vehicle);
