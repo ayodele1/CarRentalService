@@ -22,17 +22,17 @@
 
 <div class="row">
     <h3 class="pageHeading">Dashboard</h3>
-    <div class="col-md-offset-4 col-md-3 dashboard-segment dashboard-tool-segment text-center">
+    @*<div class="col-md-offset-4 col-md-3 dashboard-segment dashboard-tool-segment text-center">
         <a asp-controller="Home" class="dashboard-tool" asp-action="Index" data-toggle="tooltip" title="Create New Reservation"><span class="glyphicon glyphicon-plus" style="font-size:2.5em;"></span></a>&nbsp;
         <a><span class="glyphicon glyphicon-cog" style="font-size:2.5em;"></span></a>
-    </div>
+    </div>*@
     <!--Angular App-->
     <div class="col-lg-8 col-md-7 dashboard-segment dashboard-reservation-segment">
         @*<ng-application>
                 <h3 style="color:coral"><b>Loading Reservations...</b></h3>
             </ng-application>*@
 
-        <h4>Reservations</h4>
+        <h4><span class="glyphicon glyphicon-list"></span>    Reservations</h4>
         <hr />
         @if (Model.UserReservations.Count() == 0)
         {
@@ -57,7 +57,7 @@
         }
 
     </div>
-    <div class="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-11 col-xs-11 dashboard-segment dashboard-sidebar" style="">
+    <div class="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-10 col-xs-10 col-xs-offset-1 dashboard-segment dashboard-sidebar" style="">
         <h5>Personal</h5><hr />
         <p><a>Account Settings</a></p>
         <p><a>Profile</a></p>
