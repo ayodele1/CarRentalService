@@ -20,7 +20,7 @@ namespace CarRentalApplication.Api.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            return Ok(_vehicleRepository.GetAll());
+            return Ok(_vehicleRepository.GetAllVehicles());
         }
 
         [HttpGet("{id}")]

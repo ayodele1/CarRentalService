@@ -53,7 +53,7 @@ namespace CarRentalApplication.Controllers.VehicleReservation
         public IActionResult VehicleSetup()
         {
             var currVehicleSetup = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey).VehicleSetup
-                ?? new ReservationVehicleViewModel { AvailableVehicles = _vehicleRepo.GetAllAvailableVehicles() };
+                ?? new ReservationVehicleViewModel { AvailableVehicles = _vehicleRepo.GetOnlyAvaliableVehicles() };
             return View(currVehicleSetup);
         }
 
@@ -154,7 +154,7 @@ namespace CarRentalApplication.Controllers.VehicleReservation
         public IActionResult VehicleUpdate()
         {
             var currVehicleSetup = _sessionService.GetFromSession<ReservationViewModel>(HttpContext, ReservationViewModel.SessionKey).VehicleSetup;
-            currVehicleSetup.AvailableVehicles = _vehicleRepo.GetAllAvailableVehicles();
+            currVehicleSetup.AvailableVehicles = _vehicleRepo.GetOnlyAvaliableVehicles();
             return View(currVehicleSetup);
         }
 

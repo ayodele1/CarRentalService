@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 using CarRentalApplication.Models.ViewModels.Api;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace CarRentalApplication
 {
@@ -33,9 +34,9 @@ namespace CarRentalApplication
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)                
                 .AddEnvironmentVariables();
-            Configuration = builder.Build();
+                 Configuration = builder.Build();
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -75,6 +76,11 @@ namespace CarRentalApplication
             services.AddDistributedMemoryCache();
             services.AddSession();
             services.AddSingleton<ViewModelSesssionService>();
+            // Register the Swagger generator, defining one or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Car Rental Application API", Version = "v1" });
+            });
 
             services.Configure<IdentityOptions>(config =>
             {
@@ -155,7 +161,7 @@ namespace CarRentalApplication
                 config.CreateMap<Reservation, ApiReservationViewModel>()
                 .ForMember(dest => dest.Vehicle, opt => opt.MapFrom(src => new ApiVehicleViewModel
                 {
-                    Id = src.VehicleId,
+
                     MakeYear = src.Vehicle.MakeYear,
                     ModelType = src.Vehicle.ModelType,
                     Name = src.Vehicle.Name,
@@ -209,11 +215,20 @@ namespace CarRentalApplication
                     ValidateLifetime = true
                 }
             });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Car Rental Application API V1");
             });
             seeder.EnsureSeedData().Wait();
         }

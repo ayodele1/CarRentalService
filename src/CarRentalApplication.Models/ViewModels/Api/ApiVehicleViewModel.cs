@@ -7,7 +7,7 @@ namespace CarRentalApplication.Models.ViewModels.Api
 {
     public class ApiVehicleViewModel
     {
-        public Guid Id { get; set; }
+        //public Guid Id { get; set; }
 
         public int MakeYear { get; set; }
 

@@ -16,12 +16,20 @@ namespace CarRentalApplication.Repositories
             _context = context;
         }
 
-        public IEnumerable<Vehicle> GetAll()
+        /// <summary>
+        /// Returns all Vehicles without any filter
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Vehicle> GetAllVehicles()
         {
-            return _context.Vehicles.ToList();
+            return _context.Vehicles.AsEnumerable();
         }
 
-        public IEnumerable<Vehicle> GetAllAvailableVehicles()
+        /// <summary>
+        /// Returns only available vehicles
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Vehicle> GetOnlyAvaliableVehicles()
         {
             return _context.Vehicles.Where(x => x.IsAvailable).ToList();
         }
@@ -33,14 +41,14 @@ namespace CarRentalApplication.Repositories
 
         public IEnumerable<Vehicle> GetVehiclesByFilter(VehicleProperty selectedVehicleProperty, string filter)
         {
-            switch (selectedVehicleProperty.FilterName)
+            switch (selectedVehicleProperty.FilterString)
             {
                 case "ModelType":
                         return GetVehiclesByModelType(filter);
                 case "MakeYear":                    
-                        return GetVehiclesByMakeYear(filter);
+                        return GetVehiclesByMakeYear(selectedVehicleProperty, filter);
                 case "PassengerCapacity":                    
-                        return GetVehiclesByPassengerCapacity(filter);                    
+                        return GetVehiclesByPassengerCapacity(selectedVehicleProperty, filter);                    
                 case "WheelDrive":                    
                         return GetVehiclesByWheelDrive(filter);                    
                 default:
@@ -48,73 +56,110 @@ namespace CarRentalApplication.Repositories
             }
         }
 
+        /// <summary>
+        /// Returns vehicles that match the default filter value for the property argument
+        /// </summary>
+        /// <param name="selectedVehicleProperty"></param>
+        /// <returns></returns>
         public IEnumerable<Vehicle> GetVehiclesByProperty(VehicleProperty selectedVehicleProperty)
         {
-            switch (selectedVehicleProperty.FilterName)
+            switch (selectedVehicleProperty.FilterString)
             {
                 case "ModelType":
-                    return GetVehiclesByModelType("All");
+                    return GetVehiclesByModelType(selectedVehicleProperty.DefaultModelType);
                 case "MakeYear":
-                    return GetVehiclesByMakeYear("2016");
+                    return GetVehiclesByMakeYear(selectedVehicleProperty, selectedVehicleProperty.DefaultMakeYear);
                 case "PassengerCapacity":
-                    return GetVehiclesByPassengerCapacity("5");
+                    return GetVehiclesByPassengerCapacity(selectedVehicleProperty, selectedVehicleProperty.DefaultPassangerCapacity);
                 case "WheelDrive":
-                    return GetVehiclesByWheelDrive("AllWheel");
+                    return GetVehiclesByWheelDrive(selectedVehicleProperty.DefaultModelType);
                 default:
-                    return GetVehiclesByModelType("All");
+                    return GetVehiclesByModelType(selectedVehicleProperty.DefaultModelType);
             }
         }
 
-        public void AddNewVehicle(Vehicle newVehicle)
+        /// <summary>
+        /// Filter Vehicles By Their Model Type
+        /// </summary>
+        /// <param name="modelTypeFilter"></param>
+        /// <returns></returns>
+        private IEnumerable<Vehicle> GetVehiclesByModelType(string modelTypeFilter)
         {
-            _context.Vehicles.Add(newVehicle);
-            _context.SaveChanges();
-        }
+            VehicleType matchingVehicleTypeEnum;
 
-        private IEnumerable<Vehicle> GetVehiclesByModelType(string vehiclefilter)
-        {
-            VehicleType equivalentVehicleType;
-            if (Enum.TryParse(vehiclefilter, out equivalentVehicleType))
+            //Convert string filter into enum(VehicleType)
+            if (Enum.TryParse(modelTypeFilter, out matchingVehicleTypeEnum))
             {
-                switch (equivalentVehicleType)
+                switch (matchingVehicleTypeEnum)
                 {
                     case VehicleType.All:
-                        return GetAll();
+                        return GetAllVehicles();
                     default:
-                        return _context.Vehicles.Where(x => x.ModelType == equivalentVehicleType);
+                        return _context.Vehicles.Where(x => x.ModelType == matchingVehicleTypeEnum).AsEnumerable();
                 }
             }
 
-            return GetAll();
+            return GetAllVehicles();
         }
 
-        private IEnumerable<Vehicle> GetVehiclesByMakeYear(string vehicleFilter)
+        /// <summary>
+        /// Filter Vehicles By Make Year
+        /// </summary>
+        /// <param name="selectedVehicleProperty"></param>
+        /// <param name="makeYearFilter"></param>
+        /// <returns></returns>
+        private IEnumerable<Vehicle> GetVehiclesByMakeYear(VehicleProperty selectedVehicleProperty, string makeYearFilter)
         {
-            int b = int.Parse(vehicleFilter);
-            return _context.Vehicles.Where(x => x.MakeYear == int.Parse(vehicleFilter));
-        }
-
-        private IEnumerable<Vehicle> GetVehiclesByPassengerCapacity(string vehicleFilter)
-        {
-            int a = int.Parse(vehicleFilter);
-            return _context.Vehicles.Where(x => x.PassengerCapacity == int.Parse(vehicleFilter));
-        }
-
-        private IEnumerable<Vehicle> GetVehiclesByWheelDrive(string vehicleFilter)
-        {
-            WheelDrive equivalentWheelDrive;
-            if (Enum.TryParse(vehicleFilter, out equivalentWheelDrive))
+            try
             {
-                switch (equivalentWheelDrive)
+                return _context.Vehicles.Where(x => x.MakeYear == int.Parse(makeYearFilter));
+            }
+            catch (Exception)
+            {
+                return _context.Vehicles.Where(x => x.MakeYear == int.Parse(selectedVehicleProperty.DefaultMakeYear));
+            }                       
+        }
+
+        /// <summary>
+        /// Filter Vehicles By Passanger Capacity
+        /// </summary>
+        /// <param name="selectedVehicleProperty"></param>
+        /// <param name="passangerCapacityFilter"></param>
+        /// <returns></returns>
+        private IEnumerable<Vehicle> GetVehiclesByPassengerCapacity(VehicleProperty selectedVehicleProperty, string passangerCapacityFilter)
+        {
+            try
+            {
+                return _context.Vehicles.Where(x => x.PassengerCapacity == int.Parse(passangerCapacityFilter));
+            }
+            catch (Exception)
+            {
+                return _context.Vehicles.Where(x => x.PassengerCapacity == int.Parse(selectedVehicleProperty.DefaultPassangerCapacity));
+            }
+            
+        }
+
+        private IEnumerable<Vehicle> GetVehiclesByWheelDrive(string wheelDriveFilter)
+        {
+            WheelDrive equivalentWheelDriveEnum;
+
+            //convert filter string into enum(WheelDrive)
+            if (Enum.TryParse(wheelDriveFilter, out equivalentWheelDriveEnum))
+            {
+                switch (equivalentWheelDriveEnum)
                 {
                     default:
-                        return _context.Vehicles.Where(x => x.WheelDrive == equivalentWheelDrive);
+                        return _context.Vehicles.Where(x => x.WheelDrive == equivalentWheelDriveEnum);
                 }
             }
-            return GetAll();
+            return GetAllVehicles();
         }
 
-        public SelectList GetFiltersByModelTypes()
+        /// <summary>
+        /// Returns All Filter Values for "Model Type" Vehicle Property
+        /// </summary>
+        /// <returns></returns>
+        public SelectList GetModelTypeFilterValues()
         {
             var filters = new List<VehicleFilter>()
             {
@@ -127,7 +172,11 @@ namespace CarRentalApplication.Repositories
             return new SelectList(filters, "FilterName", "FilterName");
         }
 
-        public SelectList GetFilterByMakeYear()
+        /// <summary>
+        /// Returns all Filter Values for Make Year Property
+        /// </summary>
+        /// <returns></returns>
+        public SelectList GetMakeYearFilterValues()
         {
             var filters = new List<VehicleFilter>()
             {
@@ -139,7 +188,11 @@ namespace CarRentalApplication.Repositories
             return new SelectList(filters, "FilterName", "FilterName");
         }
 
-        public SelectList GetFilterByPassengerCapacity()
+        /// <summary>
+        /// Returns all Filter Values for Passanger Capacity Property
+        /// </summary>
+        /// <returns></returns>
+        public SelectList GetPassengerCapacityFilterValues()
         {
             var filters = new List<VehicleFilter>()
             {
@@ -151,7 +204,11 @@ namespace CarRentalApplication.Repositories
             return new SelectList(filters, "FilterName", "FilterName");
         }
 
-        public SelectList GetFilterByWheelDrive()
+        /// <summary>
+        /// Returns all Filter Values for Wheel Drive Property
+        /// </summary>
+        /// <returns></returns>
+        public SelectList GetWheelDriveFilterValues()
         {
             var filters = new List<VehicleFilter>()
             {
@@ -163,14 +220,18 @@ namespace CarRentalApplication.Repositories
             return new SelectList(filters, "FilterName", "FilterName");
         }
 
+        /// <summary>
+        /// Returns all Vehicle Properties that can be filtered on
+        /// </summary>
+        /// <returns></returns>
         public SelectList GetVehicleFilterProperties()
         {
             var properties = new List<VehicleProperty>()
             {
-                new VehicleProperty {Id=4, FilterName = "ModelType" },
-                new VehicleProperty {Id=0, FilterName="MakeYear"},
-                new VehicleProperty {Id=1, FilterName="PassengerCapacity" },
-                new VehicleProperty {Id=2, FilterName="WheelDrive" },
+                new VehicleProperty {Id=4, FilterString = "ModelType" },
+                new VehicleProperty {Id=0, FilterString="MakeYear"},
+                new VehicleProperty {Id=1, FilterString="PassengerCapacity" },
+                new VehicleProperty {Id=2, FilterString="WheelDrive" },
             };
             return new SelectList(properties, "FilterName", "FilterName");
         }

@@ -8,9 +8,11 @@
     <title>@ViewData["Title"] - CarRentalApplication</title>
 
     <environment names="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/lib/bootswatch/flatly/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/datepicker.css" />
         <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/all.css" />
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -98,17 +100,22 @@
         </footer>
     </div>
 
-    <environment names="Developlment">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
+    <environment names="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
         <script src="~/lib/jquery-ui/jquery-ui.js"></script>
         <script src="~/js/Custom.js"></script>
         <script src="~/js/GoogleService.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChWlnXt3ZDM74QSanoxvJoqolkw1R0RXw&libraries=places&callback=initAutocomplete"
                 async defer></script>
-        <script src="~/js/jquery.flip.min.js"></script> 
-
+        <script src="~/js/jquery.flip.min.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
