@@ -10,9 +10,15 @@ namespace CarRentalApplication.Models
 {
     public class Reservation : IModificationHistory
     {
+        private long _confirmationNumber;
+        public Reservation()
+        {
+            _confirmationNumber = new Random().Next(100000000, 999999999);
+        }
+
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.None)]
-        public long ConfirmationNumber { get; set; }
+        public long ConfirmationNumber { get { return _confirmationNumber; } }
 
         //ReservationContact Foreign Key
         public Guid ReservationContactId { get; set; }

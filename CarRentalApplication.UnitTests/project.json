@@ -2,22 +2,19 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "CarRentalApplication": "1.0.0-*",
     "CarRentalApplication.Models": "1.0.0-*",
     "CarRentalApplication.Repositories": "1.0.0-*",
-    "Microsoft.NETCore.App": {
-      "version": "1.0.0",
-      "type": "platform"
-    },
-    "NUnit": "3.7.1"
+    "Microsoft.EntityFrameworkCore.InMemory": "1.1.2",
+    "Moq": "4.7.63",
+    "MSTest.TestAdapter": "1.1.18",
+    "MSTest.TestFramework": "1.1.18",
+    "NETStandard.Library": "1.6.1"
   },
 
   "frameworks": {
-    "netcoreapp1.0": {
-      "imports": [
-        "dotnet5.6",
-        "portable-net45+win8"
-      ]
+    "net461": {
+      "dependencies": {
+      }
     }
   }
 }

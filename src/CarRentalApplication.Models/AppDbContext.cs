@@ -13,7 +13,7 @@ namespace CarRentalApplication.Models
     {
         private IConfigurationRoot _config;
 
-        public AppDbContext(IConfigurationRoot config, DbContextOptions options)
+        public AppDbContext(IConfigurationRoot config, DbContextOptions<AppDbContext> options)
             : base(options)
         {
             _config = config;
@@ -23,7 +23,10 @@ namespace CarRentalApplication.Models
         {
             base.OnConfiguring(builder);
             var connectionString = _config.GetConnectionString("ConnectionString");
-            builder.UseSqlServer(connectionString);
+            if (!builder.IsConfigured)
+            {
+                builder.UseSqlServer(connectionString);
+            }            
         }
 
         public DbSet<Reservation> Reservations { get; set; }

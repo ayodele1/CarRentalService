@@ -1,25 +1,24 @@
-﻿{
+{
   "version": "1.0.0-*",
 
   "dependencies": {
     "CarRentalApplication.Models": "1.0.0-*",
-    "NETStandard.Library": "1.6.1"
+    "CarRentalApplication.Repositories": "1.0.0-*",
+
+    "Moq": "4.7.63",
+    "NUnit": "3.7.1"
   },
 
   "frameworks": {
     "net461": {
       "dependencies": {
-
       }
     }
     //"netcoreapp1.0": {
-    //  "dependencies": {
-    //    "Microsoft.NETCore.App": {
-    //      "type": "platform",
-    //      "version": "1.0.0-*"
-    //    }
-    //  }
+    //  "imports": [
+    //    "dotnet5.6",
+    //    "portable-net45+win8"
+    //  ]
     //}
   }
-
 }

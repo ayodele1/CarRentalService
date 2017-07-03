@@ -66,11 +66,10 @@ namespace CarRentalApplication.Repositories
                 var reservationContact = _context.ReservationContacts.Find(reservationContactId);
                 if (reservationContact != null)
                 {
-                    newReservation.ConfirmationNumber = random.Next(100000000, 999999999);
                     reservationContact.Reservations.Add(newReservation);
                     _context.SaveChanges();
                     return _context.Reservations.Where(x => x.ConfirmationNumber == newReservation.ConfirmationNumber).FirstOrDefault();
-                }                
+                }
             }
             return null;
         }
