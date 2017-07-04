@@ -28,7 +28,10 @@
     "Microsoft.AspNetCore.Authentication.JwtBearer": "1.0.0",
     "Microsoft.AspNetCore.Mvc.Formatters.Xml": "1.0.1",
     "Swashbuckle.AspNetCore": "1.0.0",
-    "Moq": "4.7.63"
+    "Moq": "4.7.63",
+    "FluentAssertions": "4.19.2",
+    "Microsoft.AspNet.WebApi.Core": "5.2.3",
+    "Microsoft.AspNet.Identity.Core": "2.2.1"
   },
 
   "tools": {

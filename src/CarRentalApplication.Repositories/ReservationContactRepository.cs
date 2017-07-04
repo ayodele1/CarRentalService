@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CarRentalApplication.Repositories
 {
-    public class ReservationContactRepository
+    public class ReservationContactRepository : IReservationContactRepository
     {
         private AppDbContext _context;
 

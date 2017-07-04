@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CarRentalApplication.Repositories
 {
-    public class ReservationRepository
+    public class ReservationRepository : IReservationRepository
     {
         private AppDbContext _context;
         private UserManager<AppUser> _userManager;

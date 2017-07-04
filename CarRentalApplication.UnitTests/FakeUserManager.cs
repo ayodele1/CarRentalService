@@ -25,5 +25,10 @@ namespace CarRentalApplication.UnitTests
                   new Mock<ILogger<UserManager<AppUser>>>().Object)
         {
         }
+
+        public override Task<IdentityResult> CreateAsync(AppUser user, string password)
+        {
+            return Task.FromResult(IdentityResult.Success);
+        }
     }
 }

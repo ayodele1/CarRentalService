@@ -17,13 +17,13 @@ namespace CarRentalApplication.Api.Controllers
     [Route("api/Reservations")]
     public class ReservationsController : Controller
     {
-        private ReservationContactRepository _reservationContactRepo;
-        private ReservationRepository _reservationRepo;
+        private IReservationContactRepository _reservationContactRepo;
+        private IReservationRepository _reservationRepo;
         private UserManager<AppUser> _userMgr;
 
-        public ReservationsController(ReservationRepository reservationRepo,
+        public ReservationsController(IReservationRepository reservationRepo,
             UserManager<AppUser> userMgr,
-            ReservationContactRepository rcr)
+            IReservationContactRepository rcr)
         {
             _reservationRepo = reservationRepo;
             _userMgr = userMgr;
@@ -35,7 +35,7 @@ namespace CarRentalApplication.Api.Controllers
         {
             if (this.User.Identity.IsAuthenticated)
             {
-                var userId = _userMgr.GetUserId(HttpContext.User);
+                var userId = _userMgr.GetUserId(HttpContext.User);                
                 var user = await _userMgr.FindByIdAsync(userId);
                 if (user != null)
                 {

@@ -2,8 +2,11 @@
   "version": "1.0.0-*",
 
   "dependencies": {
+    "CarRentalApplication": "1.0.0-*",
     "CarRentalApplication.Models": "1.0.0-*",
     "CarRentalApplication.Repositories": "1.0.0-*",
+    "FluentAssertions": "4.19.2",
+    "Microsoft.AspNet.WebApi.Core": "5.2.3",
     "Microsoft.EntityFrameworkCore.InMemory": "1.1.2",
     "Moq": "4.7.63",
     "MSTest.TestAdapter": "1.1.18",
@@ -14,6 +17,9 @@
   "frameworks": {
     "net461": {
       "dependencies": {
+      },
+      "frameworkAssemblies": {
+        "System.Web": "4.0.0.0"
       }
     }
   }
