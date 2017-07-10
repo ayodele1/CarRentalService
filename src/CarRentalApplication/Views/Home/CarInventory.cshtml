@@ -13,7 +13,7 @@
         </div>
 
         <div class="col-md-3">
-            <select asp-for="selectedVehiclePropery.FilterName" asp-items="@Model.VehicleProperties" id="carInventoryPropertyFilter" class="form-control"></select>
+            <select asp-for="selectedVehiclePropery.FilterString" asp-items="@Model.VehicleProperties" id="carInventoryPropertyFilter" class="form-control"></select>
             <input type="hidden" asp-for="PropertyFilter" value="@(Model.PropertyFilter)" />
         </div>
 

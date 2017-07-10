@@ -15,7 +15,7 @@ namespace CarRentalApplication
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
-                .UseStartup<Startup>()
+                .UseStartup<Startup>()                
                 .Build();
 
             host.Run();

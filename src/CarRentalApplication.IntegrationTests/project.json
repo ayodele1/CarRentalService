@@ -2,9 +2,11 @@
   "version": "1.0.0-*",
 
   "dependencies": {
+    "CarRentalApplication": "1.0.0-*",
     "CarRentalApplication.Models": "1.0.0-*",
     "CarRentalApplication.Repositories": "1.0.0-*",
-
+    "Microsoft.AspNetCore.TestHost": "1.1.2",
+    "Microsoft.NET.Test.Sdk": "15.0.0",
     "Moq": "4.7.63",
     "NUnit": "3.7.1"
   },

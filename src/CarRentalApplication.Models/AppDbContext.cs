@@ -23,10 +23,10 @@ namespace CarRentalApplication.Models
         {
             base.OnConfiguring(builder);
             var connectionString = _config.GetConnectionString("ConnectionString");
-            if (!builder.IsConfigured)
-            {
+            //if (!builder.IsConfigured)
+            //{
                 builder.UseSqlServer(connectionString);
-            }            
+            //}            
         }
 
         public DbSet<Reservation> Reservations { get; set; }

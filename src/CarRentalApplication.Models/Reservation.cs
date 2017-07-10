@@ -17,8 +17,8 @@ namespace CarRentalApplication.Models
         }
 
         [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.None)]
-        public long ConfirmationNumber { get { return _confirmationNumber; } }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public long ConfirmationNumber { get { return _confirmationNumber; } private set { } }
 
         //ReservationContact Foreign Key
         public Guid ReservationContactId { get; set; }

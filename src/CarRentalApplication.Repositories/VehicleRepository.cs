@@ -169,7 +169,7 @@ namespace CarRentalApplication.Repositories
                 new VehicleFilter {Id=2, FilterName="Truck", PropertyType = "ModelType" },
                 new VehicleFilter {Id=3, FilterName="Luxury", PropertyType = "ModelType" }
             };
-            return new SelectList(filters, "FilterName", "FilterName");
+            return new SelectList(filters, "FilterName", "PropertyType");
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace CarRentalApplication.Repositories
                 new VehicleFilter {Id=1, FilterName="2014", PropertyType = "MakeYear" },
                 new VehicleFilter {Id=2, FilterName="2013", PropertyType = "MakeYear" },
             };
-            return new SelectList(filters, "FilterName", "FilterName");
+            return new SelectList(filters, "FilterName", "PropertyType");
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace CarRentalApplication.Repositories
                 new VehicleFilter {Id=1, FilterName="4", PropertyType = "PassengerCapacity" },
                 new VehicleFilter {Id=2, FilterName="3", PropertyType = "PassengerCapacity" },
             };
-            return new SelectList(filters, "FilterName", "FilterName");
+            return new SelectList(filters, "FilterName", "PropertyType");
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace CarRentalApplication.Repositories
                 new VehicleFilter {Id=1, FilterName="FourWheel", PropertyType = "WheelDrive" },
                 new VehicleFilter {Id=2, FilterName="RearWheel", PropertyType = "WheelDrive" },
             };
-            return new SelectList(filters, "FilterName", "FilterName");
+            return new SelectList(filters, "FilterName", "PropertyType");
         }
 
         /// <summary>
@@ -233,7 +233,7 @@ namespace CarRentalApplication.Repositories
                 new VehicleProperty {Id=1, FilterString="PassengerCapacity" },
                 new VehicleProperty {Id=2, FilterString="WheelDrive" },
             };
-            return new SelectList(properties, "FilterName", "FilterName");
+            return new SelectList(properties, "Id", "FilterString");
         }
     }
 }

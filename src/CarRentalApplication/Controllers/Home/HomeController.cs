@@ -81,7 +81,7 @@ namespace CarRentalApplication.Controllers
             var vehicleProperty = new VehicleProperty { FilterString = defaultPropertyFilterString };            
             var filteredVehicles = _vehicleRepo.GetVehiclesByFilter(vehicleProperty, filter);
 
-            var civm = new CarInventoryViewModel { Vehicles = filteredVehicles, VehicleProperties = _vehicleRepo.GetVehicleFilterProperties(), SelectedFilter = filter, VehicleFilters = GetVehicleFilters("ModelType"), PropertyFilter = defaultPropertyFilterString };
+            var civm = new CarInventoryViewModel { Vehicles = filteredVehicles, VehicleProperties = _vehicleRepo.GetVehicleFilterProperties(), SelectedFilter = filter, VehicleFilters = GetVehicleFilters(filter), PropertyFilter = defaultPropertyFilterString};
             return View(civm);
         }
 
